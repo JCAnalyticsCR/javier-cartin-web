@@ -73,10 +73,12 @@
   paintV();
 
   /* ── GALERÍA ─────────────────────────────────────────────────── */
-  $('gallery').innerHTML = S.galeria.map(function (g) {
+  // Muestra las primeras S.galeriaVisibles; el resto se despliega con "Ver toda la galería".
+  var gal = $('gallery'), visibles = S.galeriaVisibles || S.galeria.length;
+  gal.innerHTML = S.galeria.map(function (g, i) {
+    var extra = i >= visibles;
     if (g.src) {
-      // Foto real: marco dorado + figcaption en hover
-      return '<figure class="has-img' + (g.archivo ? ' is-archivo' : '') + '">' +
+      return '<figure class="has-img' + (g.archivo ? ' is-archivo' : '') + (extra ? ' is-extra' : '') + '"' + (extra ? ' hidden' : '') + '>' +
         '<img src="' + esc(g.src) + '" alt="' + esc(g.alt) + '"' +
           (g.w ? ' width="' + g.w + '" height="' + g.h + '"' : '') + ' loading="lazy" decoding="async">' +
         '<figcaption><span class="gallery__pie">' + esc(g.pie || g.alt) + '</span>' +
@@ -84,21 +86,40 @@
         '</figcaption>' +
         '</figure>';
     }
-    // Placa elegante mientras no hay foto
     return '<figure class="gallery__plate" role="img" aria-label="' + esc(g.alt) + '">' +
-      '<div class="gallery__inner">' +
-        '<p class="gallery__scene-title">' + esc(g.alt) + '</p>' +
-        '<span class="gallery__soon">Próximamente</span>' +
-      '</div>' +
-      '</figure>';
+      '<div class="gallery__inner"><p class="gallery__scene-title">' + esc(g.alt) + '</p>' +
+      '<span class="gallery__soon">Próximamente</span></div></figure>';
   }).join('');
+
+  var ocultas = S.galeria.length - visibles;
+  if (ocultas > 0) {
+    var mas = document.createElement('div');
+    mas.className = 'gallery__mas';
+    mas.innerHTML = '<button type="button" class="gallery__btn" aria-expanded="false" aria-controls="gallery">' +
+      '<span class="gallery__btn-txt">Ver toda la galería</span><span class="gallery__btn-n">+' + ocultas + '</span>' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>';
+    gal.parentNode.insertBefore(mas, gal.nextSibling);
+    var btn = mas.firstChild, abierta = false;
+    btn.addEventListener('click', function () {
+      abierta = !abierta;
+      btn.setAttribute('aria-expanded', String(abierta));
+      btn.querySelector('.gallery__btn-txt').textContent = abierta ? 'Ver menos' : 'Ver toda la galería';
+      var extras = gal.querySelectorAll('.is-extra');
+      Array.prototype.forEach.call(extras, function (f, k) {
+        if (abierta) {
+          f.hidden = false;
+          f.style.transitionDelay = (k * 90) + 'ms';
+          requestAnimationFrame(function () { requestAnimationFrame(function () { f.classList.add('is-visible'); }); });
+        } else {
+          f.classList.remove('is-visible'); f.hidden = true; f.style.transitionDelay = '';
+        }
+      });
+      if (!abierta && window.JCIrA) window.JCIrA(document.getElementById('galeria'));
+    });
+  }
 
   /* ── CONTACTO ────────────────────────────────────────────────── */
   var C = S.contacto;
-
-  // Teléfono: aplicar gradiente oro metálico
-  var phoneEl = document.querySelector('.phone');
-  if (phoneEl) phoneEl.classList.add('oro-metal');
 
   // Eliminar botones de WhatsApp si el número no tiene WA
   if (!C.whatsapp) {
@@ -109,12 +130,22 @@
   var copyBtn = $('copyBtn');
   if (copyBtn) {
     copyBtn.addEventListener('click', function () {
-      var b = this;
+      var b = this, label = b.querySelector('.accion__label') || b;
+      var num = C.telefono.replace(/\s/g, '');
+      function respaldo() {           // sin permiso de portapapeles: copia con un campo temporal
+        var t = document.createElement('textarea');
+        t.value = num; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+        document.body.appendChild(t); t.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(t);
+      }
       try {
-        navigator.clipboard.writeText(C.telefono.replace(/\s/g, ''));
-      } catch (e) {}
-      b.textContent = 'Número copiado';
-      setTimeout(function () { b.textContent = 'Copiar número'; }, 2000);
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(num).catch(respaldo);
+        else respaldo();
+      } catch (e) { respaldo(); }
+      label.textContent = 'Número copiado';
+      b.classList.add('is-ok');
+      setTimeout(function () { label.textContent = 'Copiar número'; b.classList.remove('is-ok'); }, 2000);
     });
   }
 

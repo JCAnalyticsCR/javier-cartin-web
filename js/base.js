@@ -34,4 +34,33 @@
   }
   initReveal();
   document.addEventListener('visibilitychange', initReveal);
+  // Navegación por anclas: la sección llega centrada, sin el "hueco" del padding superior.
+  // Si cabe en la pantalla (debajo del nav), se centra; si es más alta, su contenido arranca
+  // justo debajo del nav. Lo usan el menú, los botones del hero y window.JCIrA desde otras secciones.
+  function irA(el, instant) {
+    if (!el) return;
+    var navH = $('nav').offsetHeight, avail = window.innerHeight - navH;
+    var r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+    var pt = parseFloat(cs.paddingTop) || 0, pb = parseFloat(cs.paddingBottom) || 0;
+    var contenido = r.height - pt - pb, top;
+    if (r.height <= avail) top = r.top - navH - (avail - r.height) / 2;            // cabe entera: centrada
+    else if (contenido <= avail - 48) top = r.top + pt - navH - (avail - contenido) / 2; // cabe el contenido: centrado
+    else top = r.top + pt - navH - Math.min(40, avail * 0.06);                      // alta: arranca bajo el nav
+    window.scrollTo({ top: Math.max(0, window.scrollY + top), behavior: (instant || reduce) ? 'instant' : 'smooth' });
+  }
+  window.JCIrA = irA;
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    var id = a.getAttribute('href').slice(1), el = id ? document.getElementById(id) : null;
+    if (!el) return;
+    e.preventDefault();
+    if (id === 'inicio') window.scrollTo({ top: 0, behavior: reduce ? 'instant' : 'smooth' }); else irA(el);
+    if (history.replaceState) history.replaceState(null, '', '#' + id);
+  });
+  // Entrada directa con #ancla en la URL: corregir la posición una vez cargadas fuentes y fotos
+  if (location.hash.length > 1) window.addEventListener('load', function () {
+    var el = document.getElementById(location.hash.slice(1));
+    if (el && el.id !== 'inicio') irA(el, true);
+  });
 })();

@@ -1,0 +1,90 @@
+/* ==========================================================================
+   CONTACTO — concierge de contrataciones.
+   Izquierda: tarjeta "Línea directa" sobre vino. Derecha: invitación en papel crema.
+   Pantalla de decisión: solo se mueve lo que el usuario toca.
+   ========================================================================== */
+.contacto{
+  --papel:#f6efe1; --papel-filete:rgba(110,31,43,.28);
+  position:relative;overflow:hidden;
+  padding:var(--sec) var(--pad);
+  background:
+    radial-gradient(ellipse 60% 70% at 18% 30%,rgba(201,161,90,.13),transparent 70%),
+    radial-gradient(ellipse 50% 60% at 85% 90%,rgba(0,0,0,.35),transparent 70%),
+    var(--vino);
+  border-top:1px solid var(--filete);
+}
+
+/* Encabezado */
+.contacto__head{max-width:760px}
+.contacto__head h2{margin:18px 0 0;color:var(--crema);font-size:clamp(40px,5vw,64px);line-height:1.02;text-wrap:balance}
+.contacto__head p{margin:20px 0 0;max-width:560px;font-size:18px;line-height:1.65;color:rgba(243,236,221,.78);text-wrap:pretty}
+
+.contacto__grid{margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(28px,4vw,56px);align-items:stretch}
+
+/* ── Línea directa ─────────────────────────────────────────────── */
+.linea{display:flex;flex-direction:column;padding:clamp(28px,3.4vw,44px);background:rgba(11,10,9,.28);border:1px solid rgba(224,189,124,.32)}
+.linea__et{font-size:11px;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;font-weight:600;color:var(--oro-claro)}
+.linea__tel{display:inline-block;align-self:flex-start;margin-top:14px;text-decoration:none;font-family:var(--serif);font-weight:600;font-size:clamp(48px,5.4vw,76px);line-height:1;letter-spacing:.01em;white-space:nowrap}
+.linea__mail{align-self:flex-start;margin-top:12px;font-size:17px;color:var(--crema-2);text-decoration:none;border-bottom:1px solid rgba(243,236,221,.3);padding-bottom:2px;transition:color var(--dur-micro),border-color var(--dur-micro)}
+.linea__mail:hover{color:var(--oro-claro);border-color:var(--oro-claro)}
+
+/* Acciones: lista de concierge con icono, texto y flecha */
+.acciones{margin-top:32px;display:flex;flex-direction:column;border-top:1px solid rgba(243,236,221,.16)}
+.accion{display:flex;align-items:center;gap:16px;min-height:60px;padding:0 4px;border:0;border-bottom:1px solid rgba(243,236,221,.16);background:none;color:var(--crema);text-decoration:none;font:inherit;font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-align:left;cursor:pointer;transition:color var(--dur-micro),background var(--dur-micro)}
+.accion svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--oro-claro);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round}
+.accion__label{flex:1}
+.accion .accion__flecha{width:18px;height:18px;stroke:currentColor;opacity:.45;transition:transform var(--dur-ui) var(--ease-salida),opacity var(--dur-micro)}
+.accion:hover,.accion:focus-visible{color:var(--oro-claro);background:rgba(224,189,124,.06)}
+.accion:hover .accion__flecha,.accion:focus-visible .accion__flecha{transform:translateX(5px);opacity:1}
+.accion.is-ok{color:var(--oro-claro)}
+
+/* Tipos de evento */
+.linea__eventos{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.linea__eventos li{padding:7px 14px;border:1px solid rgba(224,189,124,.35);font-family:var(--serif);font-style:italic;font-size:16px;color:var(--crema-3)}
+
+/* Redes */
+.contacto .social{margin-top:auto;padding-top:28px;display:flex;flex-wrap:wrap;gap:10px 26px;font-size:11px;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase}
+.contacto .social a{text-decoration:none;color:var(--crema-2);padding:8px 0;transition:color var(--dur-micro)}
+.contacto .social a:hover{color:var(--oro-claro)}
+
+/* ── Invitación (formulario en papel crema) ────────────────────── */
+.invitacion{position:relative;display:flex;flex-direction:column;gap:22px;padding:clamp(30px,3.8vw,52px);background:var(--papel);color:var(--tinta);
+  border:1px solid rgba(201,161,90,.7);outline:1px solid var(--papel-filete);outline-offset:-10px;box-shadow:0 30px 60px -20px rgba(0,0,0,.55)}
+.invitacion__head{text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:6px}
+.invitacion__orn{color:var(--oro-profundo);font-size:14px;letter-spacing:.6em}
+.invitacion__et{font-size:11px;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;font-weight:600;color:var(--vino-texto)}
+.invitacion__titulo{margin:0;font-family:var(--serif);font-weight:600;font-size:clamp(30px,3vw,40px);line-height:1.05;color:var(--tinta);text-wrap:balance}
+
+.campo{display:flex;flex-direction:column;gap:6px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--vino-texto)}
+.campo input,.campo select,.campo textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(26,22,19,.28);border-radius:0;color:var(--tinta);color-scheme:light;font-family:var(--sans);font-size:17px;letter-spacing:0;text-transform:none;font-weight:400;line-height:1.5;padding:10px 0;outline:none;resize:vertical;transition:border-color var(--dur-micro)}
+.campo input::placeholder,.campo textarea::placeholder{color:rgba(90,79,69,.7)}
+.campo input:focus,.campo select:focus,.campo textarea:focus{border-bottom-color:var(--vino)}
+.campo select{cursor:pointer}
+.invitacion__fila{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+.invitacion__err{min-height:20px;margin:-8px 0 -6px;font-size:14px;color:var(--vino-texto);font-weight:600}
+
+.invitacion__btns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.ibtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 16px;font:inherit;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:1px solid var(--vino);transition:background var(--dur-micro),color var(--dur-micro),border-color var(--dur-micro)}
+.ibtn svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
+.ibtn--vino{background:var(--vino);color:var(--crema)}
+.ibtn--vino:hover{background:var(--tinta);border-color:var(--tinta)}
+.ibtn--linea{background:transparent;color:var(--vino-texto)}
+.ibtn--linea:hover{background:var(--vino);color:var(--crema)}
+.invitacion :focus-visible{outline:1px solid var(--vino);outline-offset:3px}
+.invitacion__nota{margin:-4px 0 0;text-align:center;font-size:13px;line-height:1.5;color:var(--gris)}
+
+/* ── Responsive ────────────────────────────────────────────────── */
+@media (max-width:960px){
+  .contacto__grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:767px){
+  .contacto__head p{font-size:16px}
+  .linea{padding:24px 20px}
+  .linea__tel{font-size:clamp(42px,13vw,56px)}
+  .invitacion{padding:28px 20px;outline-offset:-6px}
+  .invitacion__fila,.invitacion__btns{grid-template-columns:minmax(0,1fr)}
+  .campo input,.campo select,.campo textarea{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  .accion,.accion .accion__flecha,.ibtn,.linea__mail{transition:none}
+}

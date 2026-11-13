@@ -2,7 +2,11 @@
    TRAYECTORIA — "Noche de gala en trece actos". Dueño: agente trayectoria.
    Tres versiones: móvil (max-width:767px), escritorio (base de este archivo)
    y capa extra (min-width:1024px + hover + sin reduced-motion) que JS activa
-   con .tray--telon (telón inicial) y el foco que sigue al puntero.
+   con .tray--telon (telón inicial), .tray--kb (zoom lento del fondo) y el foco
+   que sigue al puntero.
+   Presupuesto de alto (escritorio): encabezado + escena + riel caben en
+   100svh − nav (≈80px) desde 1024×600. Por eso los tamaños grandes usan
+   min(…vw, …svh): se achican también por la altura de la ventana.
    Duraciones y curvas: SOLO tokens de :root (base.css).
    ========================================================================== */
 #trayectoria{
@@ -11,27 +15,37 @@
   --tray-luz-suave:rgba(201,161,90,.05);
   --tray-velo:rgba(7,6,5,.9);            /* fondo del escenario */
   --tray-terciopelo:#3a0d15;             /* sombra del telón (deriva de --vino) */
+  --tray-foto:.88;                       /* opacidad de la foto de época (ya viene difuminada y con techo de luz) */
+  /* Velo sobre la foto: más denso arriba (etiquetas doradas de 12px) y a la izquierda (año y texto).
+     Calibrado con las 12 fotos (960×480, techo de luz p99.5 = 150 en el archivo; 125 en la de La Selección):
+     peor píxel → oro 12px ≥ 4.5:1, texto crema ≥ 6.3:1, año ≥ 3.1:1 (texto grande), botones ≥ 4.7:1.
+     Si cambiás opacidad, velo o una foto, volvé a medir. */
+  --tray-velo-v:linear-gradient(180deg,rgba(7,6,5,.86) 0%,rgba(7,6,5,.24) 34%,rgba(7,6,5,.24) 66%,rgba(7,6,5,.64) 100%);
+  --tray-velo-h:linear-gradient(90deg,rgba(7,6,5,.5) 0%,rgba(7,6,5,.2) 45%,rgba(7,6,5,.05) 100%);
   --tray-n:12;                           /* nº de actos (lo fija JS) */
   --tray-i:0;                            /* acto activo (lo fija JS) */
-  --tray-y-regla:18px;                   /* altura de la línea del riel */
+  --tray-y-regla:16px;                   /* altura de la línea del riel */
   position:relative;isolation:isolate;overflow:hidden;
   background:
     radial-gradient(ellipse 70% 42% at 50% 0%,rgba(201,161,90,.07),transparent 70%),
     var(--negro);
 }
+/* Padding vertical propio (el --sec genérico, hasta 152px, se comía la pantalla) */
+#trayectoria.section{padding-top:clamp(20px,5vh,64px);padding-bottom:clamp(20px,5vh,64px)}
+@supports (height:1svh){#trayectoria.section{padding-top:clamp(20px,5svh,64px);padding-bottom:clamp(20px,5svh,64px)}}
 
-/* ---------- Encabezado ---------- */
-.tray__head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px 48px}
-#trayectoria h2{margin-top:18px;font-weight:500;font-size:clamp(52px,6.2vw,92px);letter-spacing:-.01em;line-height:.95}
-.tray__fechas{display:flex;align-items:center;gap:18px;font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(22px,2.2vw,30px);color:var(--crema-3)}
-.tray__fechas i{display:block;width:clamp(40px,5vw,72px);height:1px;background:var(--filete-fuerte)}
-.tray__fechas small{margin-left:10px;padding-left:18px;border-left:1px solid var(--filete);font-family:var(--sans);font-style:normal;font-size:12px;font-weight:500;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;color:var(--oro)}
+/* ---------- Encabezado compacto: título y fechas en la misma línea ---------- */
+.tray__head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 40px}
+#trayectoria h2{margin-top:6px;font-weight:500;font-size:clamp(34px,min(4.2vw,7vh),72px);letter-spacing:-.01em;line-height:.95}
+.tray__fechas{display:flex;align-items:center;gap:14px;padding-bottom:.18em;font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(18px,min(1.8vw,3.4vh),28px);color:var(--crema-3)}
+.tray__fechas i{display:block;width:clamp(32px,4vw,64px);height:1px;background:var(--filete-fuerte)}
+.tray__fechas small{margin-left:8px;padding-left:16px;border-left:1px solid var(--filete);font-family:var(--sans);font-style:normal;font-size:12px;font-weight:500;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;color:var(--oro)}
 
 /* ---------- Escenario ---------- */
 .tray__escena{
   position:relative;isolation:isolate;overflow:hidden;
-  margin-top:clamp(40px,5vw,64px);
-  padding:clamp(28px,3.4vw,48px) clamp(24px,4.4vw,72px) clamp(32px,4vw,56px);
+  margin-top:clamp(12px,2.6vh,32px);
+  padding:clamp(16px,3vh,40px) clamp(24px,4.4vw,72px);
   border-top:1px solid var(--filete);border-bottom:1px solid var(--filete);
   background:
     radial-gradient(ellipse 60% 26% at 50% 104%,rgba(201,161,90,.09),transparent 70%),
@@ -39,18 +53,29 @@
   touch-action:pan-y;            /* el scroll vertical sigue siendo nativo; el swipe horizontal es nuestro */
 }
 /* Escuadras doradas de invitación de gala */
-.tray__escena::before,.tray__escena::after{content:"";position:absolute;z-index:5;width:28px;height:28px;pointer-events:none}
-.tray__escena::before{top:12px;left:12px;border-top:1px solid var(--filete-fuerte);border-left:1px solid var(--filete-fuerte)}
-.tray__escena::after{right:12px;bottom:12px;border-right:1px solid var(--filete-fuerte);border-bottom:1px solid var(--filete-fuerte)}
+.tray__escena::before,.tray__escena::after{content:"";position:absolute;z-index:5;width:24px;height:24px;pointer-events:none}
+.tray__escena::before{top:10px;left:10px;border-top:1px solid var(--filete-fuerte);border-left:1px solid var(--filete-fuerte)}
+.tray__escena::after{right:10px;bottom:10px;border-right:1px solid var(--filete-fuerte);border-bottom:1px solid var(--filete-fuerte)}
 
-/* Capa 0: miniatura de video velada (solo en hitos con video asociado) */
-.tray__fondo{position:absolute;inset:0;z-index:0;pointer-events:none;
-  -webkit-mask-image:linear-gradient(to left,#000 10%,rgba(0,0,0,.5) 45%,transparent 80%);
-          mask-image:linear-gradient(to left,#000 10%,rgba(0,0,0,.5) 45%,transparent 80%)}
-.tray__fondo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;
-  filter:grayscale(1) sepia(.35) brightness(.62) contrast(1.08);   /* filtro estático, nunca animado */
-  transform:scale(1.04);transition:opacity var(--dur-escena) var(--ease-escena)}
-.tray__fondo img.is-visible{opacity:.24}
+/* Capa 0: foto de época, ya difuminada y entonada en el archivo (sin filter en CSS).
+   Dos capas que se relevan: fundido (CSS) o telón de luz sincronizado con el barrido (WAAPI, clip-path).
+   La capa (sin transform) lleva opacidad y clip, así el borde del telón coincide con la línea del barrido;
+   la <img> de adentro lleva solo el transform (escala base y Ken Burns). */
+.tray__fondo{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.tray__capa{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity var(--dur-escena) var(--ease-escena)}
+.tray__capa.is-visible{opacity:var(--tray-foto)}
+.tray__capa.sin-trans{transition:none}
+.tray__fondo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 35%;display:block;transform:scale(1.06)}
+.tray__fondo img:not([src]){visibility:hidden}
+.tray__fondo::after{content:"";position:absolute;inset:0;z-index:2;background:var(--tray-velo-v),var(--tray-velo-h)}
+/* Ken Burns: solo capa extra (JS pone .tray--kb) y solo mientras la sección está a la vista (.is-visto).
+   Las dos capas corren en fase, así el relevo nunca salta. */
+.tray--kb .tray__fondo img{animation:tray-kb var(--dur-ambiente) var(--ease-escena) infinite alternate;animation-play-state:paused}
+.tray--kb.is-visto .tray__fondo img{animation-play-state:running}
+@keyframes tray-kb{
+  from{transform:scale(1.05) translate3d(-1.2%,.6%,0)}
+  to{transform:scale(1.13) translate3d(1.2%,-.6%,0)}
+}
 
 /* Capa 1: foco de escenario (se mueve solo con transform) */
 .tray__foco{position:absolute;z-index:1;top:-40%;left:12%;width:76%;height:160%;pointer-events:none;
@@ -58,7 +83,7 @@
   transform:translate3d(var(--tray-foco-x,0%),0,0);
   transition:transform var(--dur-escena) var(--ease-cine)}
 
-/* Capa 3: barrido de luz al cambiar de acto (lo anima JS con WAAPI) */
+/* Capa 3: barrido de luz al cambiar de acto (lo anima JS con WAAPI; la foto nueva entra detrás de esta línea) */
 .tray__barrido{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0}
 .tray__barrido::before{content:"";position:absolute;top:0;bottom:0;left:0;width:1px;
   background:linear-gradient(180deg,transparent,var(--oro-claro) 28%,#f1d9a0 50%,var(--oro-claro) 72%,transparent)}
@@ -67,31 +92,37 @@
 
 /* Capa 2: contenido */
 .tray__contenido{position:relative;z-index:2}
-.tray__marco{display:flex;align-items:flex-start;justify-content:space-between;gap:16px 32px;padding-bottom:18px;border-bottom:1px solid var(--filete)}
+.tray__marco{display:flex;align-items:flex-start;justify-content:space-between;gap:12px 32px;padding-bottom:12px;border-bottom:1px solid var(--filete)}
 .tray__acto{display:flex;align-items:baseline;gap:12px;white-space:nowrap}
 .tray__et{font-size:12px;font-weight:500;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;color:var(--oro)}
-.tray__acto-n{font-family:var(--serif);font-weight:500;font-size:clamp(30px,3vw,40px);line-height:1;letter-spacing:.02em}
-.tray__acto-total{font-family:var(--serif);font-style:italic;font-size:clamp(18px,1.6vw,22px);color:var(--crema-3)}
-.tray__capitulo{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right}
-.tray__etapa{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(22px,2vw,28px);line-height:1.1;color:var(--crema)}
-.tray__nota{font-size:13px;letter-spacing:.08em;color:var(--crema-3)}
+/* oro-metal pinta con background-clip:text: el padding agranda la caja pintable y el margen negativo
+   lo devuelve, para que ningún trazo quede fuera (mismo arreglo que el h1 del hero) */
+.tray__acto-n{font-family:var(--serif);font-weight:500;font-size:clamp(26px,min(2.6vw,5vh),38px);line-height:1;letter-spacing:.02em;padding:.08em .06em .14em;margin:-.08em -.06em -.14em}
+.tray__acto-total{font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.5vw,21px);color:var(--crema-3)}
+/* Capítulo en dos líneas: [nota · ETIQUETA] / etapa. La nota va al lado de la etiqueta para no sumar alto. */
+.tray__capitulo{display:grid;grid-template-columns:auto auto;justify-content:end;align-items:baseline;gap:4px 14px;text-align:right}
+.tray__capitulo .tray__et{grid-area:1/2}
+.tray__etapa{grid-area:2/1/3/3;justify-self:end;font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(18px,min(1.8vw,3.4vh),26px);line-height:1.1;color:var(--crema)}
+.tray__nota{grid-area:1/1;font-size:12px;letter-spacing:.08em;color:var(--crema-3)}
 .tray__nota:empty{display:none}
 
-.tray__anio-wrap{margin:clamp(14px,2.2vw,30px) 0 0;font-family:var(--serif);font-weight:500;font-size:clamp(84px,16.5vw,272px);line-height:.86;letter-spacing:-.025em;white-space:nowrap}
-.tray__anio{display:inline-block;padding:0 .04em}
-.tray__circa{display:inline-block;margin-right:.6em;font-style:italic;font-size:clamp(18px,1.7vw,26px);letter-spacing:.04em;color:var(--crema-3)}
+/* Año protagonista: limitado por ancho Y por alto */
+.tray__anio-wrap{margin:clamp(6px,1.4vh,24px) 0 0;font-family:var(--serif);font-weight:500;font-size:clamp(64px,min(12vw,19vh),232px);line-height:.86;letter-spacing:-.025em;white-space:nowrap}
+/* Caja pintable ampliada (tildes de "Años", trazos del 7 y del 9) sin mover el layout */
+.tray__anio{display:inline-block;padding:.14em .08em .24em;margin:-.14em -.04em -.24em -.08em}
+.tray__circa{display:inline-block;margin-right:.6em;font-style:italic;font-size:clamp(16px,1.6vw,24px);letter-spacing:.04em;color:var(--crema-3)}
 .tray__circa[hidden]{display:none}
 
-.tray__pie{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:24px 48px;margin-top:clamp(18px,2.4vw,34px)}
+.tray__pie{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:16px 48px;margin-top:clamp(16px,3.4vh,40px)}
 /* Todos los textos apilados en la misma celda: el alto es el del más largo, sin saltos de layout */
-.tray__textos{display:grid;max-width:34ch;font-family:var(--serif);font-weight:500;font-size:clamp(26px,2.6vw,38px);line-height:1.2}
-.tray__textos::before{content:"";grid-area:1/1;align-self:start;width:56px;height:1px;background:var(--oro);margin-top:-14px}
+.tray__textos{display:grid;max-width:58ch;font-family:var(--serif);font-weight:500;font-size:clamp(19px,min(2.1vw,3.7vh),34px);line-height:1.2;padding-top:12px}
+.tray__textos::before{content:"";grid-area:1/1;align-self:start;width:48px;height:1px;background:var(--oro);margin-top:-12px}
 .tray__texto,.tray__medida{grid-area:1/1;margin:0;text-wrap:balance}
 .tray__medida{visibility:hidden}
 .tray__texto em,.tray__medida em{font-style:italic;color:var(--oro-claro)}
 
 .tray__ctrl{display:flex;gap:10px}
-.tray__btn{position:relative;overflow:hidden;width:56px;height:56px;display:flex;align-items:center;justify-content:center;padding:0;background:none;border:1px solid var(--filete-fuerte);color:var(--oro-claro);cursor:pointer;transition:color var(--dur-micro) var(--ease-salida),border-color var(--dur-micro) var(--ease-salida)}
+.tray__btn{position:relative;overflow:hidden;width:52px;height:52px;display:flex;align-items:center;justify-content:center;padding:0;background:rgba(7,6,5,.35);border:1px solid var(--filete-fuerte);color:var(--oro-claro);cursor:pointer;transition:color var(--dur-micro) var(--ease-salida),border-color var(--dur-micro) var(--ease-salida)}
 .tray__btn::before{content:"";position:absolute;inset:0;background:var(--oro);transform:scaleY(0);transform-origin:bottom;transition:transform var(--dur-ui) var(--ease-salida)}
 .tray__btn svg{position:relative;width:22px;height:22px}
 .tray__btn[aria-disabled="true"]{opacity:.35;cursor:default}
@@ -115,11 +146,11 @@
 .tray--telon.is-abierto .tray__telon::after{transform:translate3d(101%,0,0)}
 .tray--telon.is-retirado .tray__telon{display:none}
 
-/* ---------- Riel / regla por décadas ---------- */
-.tray__riel{margin-top:clamp(28px,3.6vw,48px);overflow-x:auto;scrollbar-width:none;padding:4px 2px}
+/* ---------- Riel / regla por décadas (pegado a la escena) ---------- */
+.tray__riel{margin-top:clamp(8px,1.6vh,24px);overflow-x:auto;scrollbar-width:none;padding:4px 2px}
 .tray__riel::-webkit-scrollbar{display:none}
 .tray__riel-in{position:relative;min-width:720px;display:grid;grid-template-columns:repeat(var(--tray-n),minmax(0,1fr))}
-.tray__decada{grid-row:1;padding:0 0 10px 10px;border-left:1px solid var(--filete-fuerte);font-size:11px;font-weight:500;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;color:var(--oro);white-space:nowrap}
+.tray__decada{grid-row:1;padding:0 0 8px 10px;border-left:1px solid var(--filete-fuerte);font-size:11px;font-weight:500;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;color:var(--oro);white-space:nowrap}
 .tray__regla{grid-area:2/1/3/-1;position:relative;pointer-events:none}
 .tray__linea,.tray__fill{position:absolute;top:var(--tray-y-regla);left:calc(50% / var(--tray-n));right:calc(50% / var(--tray-n));height:1px}
 .tray__linea{background:var(--filete)}
@@ -127,11 +158,24 @@
 .tray__cursor{position:absolute;top:var(--tray-y-regla);left:0;width:calc(100% / var(--tray-n));height:0;transform:translate3d(calc(var(--tray-i) * 100%),0,0);transition:transform var(--dur-seccion) var(--ease-cine)}
 .tray__cursor::before{content:"";position:absolute;left:50%;top:0;width:9px;height:9px;background:var(--oro-claro);box-shadow:0 0 14px 2px rgba(241,217,160,.35);transform:translate(-50%,-50%) rotate(45deg)}
 
-.tray__tab{grid-row:2;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:14px;min-height:64px;padding:12px 2px 10px;background:none;border:0;cursor:pointer;font-size:13px;font-weight:500;letter-spacing:.14em;color:var(--crema-3);outline-offset:-2px}
+.tray__tab{grid-row:2;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;min-height:46px;padding:10px 2px 6px;background:none;border:0;cursor:pointer;font-size:13px;font-weight:500;letter-spacing:.14em;color:var(--crema-3);outline-offset:-2px}
 .tray__tab::before{content:"";width:1px;height:12px;background:var(--filete-fuerte);transform-origin:center;transition:transform var(--dur-ui) var(--ease-salida)}
 .tray__tab.is-past::before{background:var(--oro)}
 .tray__tab[aria-selected="true"]{color:var(--oro-claro)}
 .tray__tab[aria-selected="true"]::before{background:var(--oro-claro);transform:scaleY(2.2)}
+
+/* svh donde exista (en móvil no salta con la barra del navegador) */
+@supports (height:1svh){
+  #trayectoria h2{font-size:clamp(34px,min(4.2vw,7svh),72px)}
+  .tray__fechas{font-size:clamp(18px,min(1.8vw,3.4svh),28px)}
+  .tray__escena{margin-top:clamp(12px,2.6svh,32px);padding:clamp(16px,3svh,40px) clamp(24px,4.4vw,72px)}
+  .tray__acto-n{font-size:clamp(26px,min(2.6vw,5svh),38px)}
+  .tray__etapa{font-size:clamp(18px,min(1.8vw,3.4svh),26px)}
+  .tray__anio-wrap{margin-top:clamp(6px,1.4svh,24px);font-size:clamp(64px,min(12vw,19svh),232px)}
+  .tray__pie{margin-top:clamp(16px,3.4svh,40px)}
+  .tray__textos{font-size:clamp(19px,min(2.1vw,3.7svh),34px)}
+  .tray__riel{margin-top:clamp(8px,1.6svh,24px)}
+}
 
 /* Hover solo donde existe hover real */
 @media (hover:hover){
@@ -141,35 +185,45 @@
   .tray__tab:not([aria-selected="true"]):hover::before{transform:scaleY(1.6)}
 }
 
-/* ---------- Móvil ---------- */
+/* ---------- Móvil: se permite scroll, pero compacto ---------- */
 @media (max-width:767px){
-  .tray__head{align-items:flex-start}
-  .tray__fechas{font-size:20px;gap:12px}
-  .tray__escena{padding:26px 20px 24px}
-  .tray__escena::before,.tray__escena::after{width:18px;height:18px}
-  .tray__escena::before{top:8px;left:8px}
-  .tray__escena::after{right:8px;bottom:8px}
-  .tray__fondo{-webkit-mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.45) 55%,transparent 90%);mask-image:linear-gradient(to bottom,#000 0,rgba(0,0,0,.45) 55%,transparent 90%)}
-  .tray__fondo img.is-visible{opacity:.18}
+  #trayectoria{
+    --tray-foto:.7;
+    --tray-velo-v:linear-gradient(180deg,rgba(7,6,5,.72) 0%,rgba(7,6,5,.42) 34%,rgba(7,6,5,.42) 66%,rgba(7,6,5,.8) 100%);
+    --tray-velo-h:linear-gradient(90deg,rgba(7,6,5,.25) 0%,rgba(7,6,5,.15) 45%,rgba(7,6,5,.1) 100%);
+  }
+  #trayectoria.section{padding-top:52px;padding-bottom:52px}
+  #trayectoria h2{font-size:clamp(38px,11vw,48px)}
+  .tray__head{align-items:flex-start;gap:8px 24px}
+  .tray__fechas{font-size:18px;gap:10px;padding-bottom:0}
+  .tray__fechas small{margin-left:4px;padding-left:12px}
+  .tray__escena{margin-top:18px;padding:22px 18px 18px}
+  .tray__escena::before,.tray__escena::after{width:16px;height:16px}
+  .tray__escena::before{top:7px;left:7px}
+  .tray__escena::after{right:7px;bottom:7px}
   .tray__foco{left:-10%;width:120%}
-  .tray__marco{gap:12px;padding-bottom:14px}
+  .tray__marco{gap:10px;padding-bottom:10px}
   .tray__acto{gap:8px}
-  .tray__etapa{font-size:20px}
-  .tray__nota{font-size:12px}
-  .tray__anio-wrap{font-size:clamp(64px,20.5vw,128px);margin-top:18px}
-  .tray__pie{grid-template-columns:minmax(0,1fr);gap:22px;margin-top:22px}
-  .tray__textos{font-size:24px;line-height:1.24;max-width:none}
+  .tray__acto-n{font-size:28px}
+  .tray__capitulo{gap:2px 10px}
+  .tray__etapa{font-size:19px}
+  .tray__nota{font-size:11px}
+  .tray__anio-wrap{font-size:clamp(56px,18vw,104px);margin-top:12px}
+  .tray__pie{grid-template-columns:minmax(0,1fr);gap:16px;margin-top:20px}
+  .tray__textos{font-size:20px;line-height:1.24;max-width:none}
   .tray__ctrl{justify-content:space-between;align-items:center}
-  .tray__btn{width:52px;height:52px}
+  .tray__btn{width:48px;height:48px}
   .tray__pista{display:block;margin:0;flex:1;text-align:center;font-size:11px;font-weight:500;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;color:var(--crema-3)}
-  .tray__riel{margin-left:calc(var(--pad) * -1);margin-right:calc(var(--pad) * -1);padding-left:var(--pad);padding-right:var(--pad);scroll-padding:0 var(--pad)}
+  .tray__riel{margin-top:10px;margin-left:calc(var(--pad) * -1);margin-right:calc(var(--pad) * -1);padding-left:var(--pad);padding-right:var(--pad);scroll-padding:0 var(--pad)}
+  .tray__tab{min-height:48px}       /* objetivo táctil */
 }
 @media (max-width:767px) and (hover:hover){
   .tray__pista{visibility:hidden}
 }
 
-/* ---------- Reduced motion: mismo contenido, sin transiciones ---------- */
+/* ---------- Reduced motion: mismo contenido, sin transiciones ni zoom ---------- */
 @media (prefers-reduced-motion:reduce){
   #trayectoria *,#trayectoria *::before,#trayectoria *::after{transition:none !important}
+  .tray__fondo img{animation:none !important}
   .tray__barrido,.tray__telon{display:none !important}
 }

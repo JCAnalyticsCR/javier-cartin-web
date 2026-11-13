@@ -174,7 +174,13 @@
   line-height: .92;
   letter-spacing: .01em;
   white-space: nowrap;
-  /* clase .oro-metal aplicada en HTML para el gradiente metálico */
+  /* clase .oro-metal aplicada en HTML para el gradiente metálico.
+     background-clip:text y el clip-path del telón recortan lo que sale de la caja:
+     el gancho de la J baja por debajo del line-height .92. El padding da aire a los
+     trazos y el margen negativo lo compensa, así el diseño no se mueve. */
+  padding: .06em .08em .2em;
+  margin-left: -.08em;
+  margin-bottom: -.2em;
 }
 .js-reveal .hero h1 {
   clip-path: inset(0 100% 0 0);  /* estado inicial cuando hay JS */

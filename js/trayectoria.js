@@ -1,5 +1,5 @@
 // TRAYECTORIA — "Noche de gala en trece actos". Incluye los botones [data-era] del hero.
-// Dueño: agente trayectoria. Sin dependencias. Expone window.JCTrayectoria = { ir(i) }.
+// Dueño: agente trayectoria. Sin dependencias. Expone window.JCTrayectoria = { ir(i) }. Fondos: campo `fondo` de SITE.trayectoria.
 (function () {
   var S = window.SITE, $ = function (id) { return document.getElementById(id); };
   var T = S.trayectoria, N = T.length;
@@ -83,7 +83,8 @@
 
   var capas = [$('tActoCapa'), $('tCapCapa'), $('tAnioCapa'), $('tText')];
   var ANIO = 2; // índice de la capa con barrido por clip-path
-  var CLIP_REPOSO = 'inset(-25% -6% -25% -6%)';
+  // Márgenes negativos generosos: el clip nunca recorta tildes ni trazos que salen de la caja del año
+  var CLIP_REPOSO = 'inset(-40% -8% -40% -8%)';
 
   // ---------- Pintado
   function pintarRiel(i) {
@@ -109,7 +110,6 @@
     $('tCirca').hidden = !t.circa;
     $('tBig').textContent = t.grande;
     rich($('tText'), t.texto);
-    fondo(t.video);
   }
   function anunciar(i) {
     var t = T[i];
@@ -140,24 +140,85 @@
   });
   escena.addEventListener('pointerleave', function () { punteroX = null; moverFoco(destino); });
 
-  // ---------- Fondo velado con la miniatura del video asociado (se carga solo cerca del viewport)
-  var imgs = [$('tFondoA'), $('tFondoB')], visible = -1, fondoActual = null, fondoListo = false, fondoPend;
-  function fondo(id) {
-    fondoPend = id || null;
-    if (!fondoListo || fondoPend === fondoActual) return;
-    fondoActual = fondoPend;
-    if (!fondoActual) { imgs.forEach(function (im) { im.classList.remove('is-visible'); }); visible = -1; return; }
-    var sig = imgs[visible === 0 ? 1 : 0], pedido = fondoActual;
-    sig.src = 'https://img.youtube.com/vi/' + pedido + '/hqdefault.jpg';
-    var mostrar = function () {
-      if (pedido !== fondoActual) return; // el usuario ya cambió de acto
-      imgs.forEach(function (im) { im.classList.toggle('is-visible', im === sig); });
-      visible = imgs.indexOf(sig);
-    };
-    if (sig.decode) sig.decode().then(mostrar).catch(function () { sig.removeAttribute('src'); });
-    else sig.onload = mostrar;
+  // ---------- Fondo de época: foto local ya difuminada y entonada (assets/trayectoria/, campo `fondo`).
+  // Nada descarga hasta que la sección está cerca (IO, rootMargin 50%). Se precargan los actos vecinos.
+  // Relevo: telón de luz sincronizado con el barrido (escritorio) o fundido (móvil); instantáneo con reduced-motion.
+  var imgsFondo = [$('tFondoA'), $('tFondoB')];                     // src + decode()
+  var capasFondo = imgsFondo.map(function (im) { return im.parentNode; }); // opacidad, z-index y clip-path
+  var arriba = -1, fondoActual = null, fondoListo = false;
+  var cacheFondo = {}; // url → Promise<boolean> (true = decodificada y lista)
+  function precargar(url) {
+    if (!url) return Promise.resolve(false);
+    if (!cacheFondo[url]) {
+      var im = new Image();
+      im.decoding = 'async';
+      im.src = url;
+      cacheFondo[url] = typeof im.decode === 'function'
+        ? im.decode().then(function () { return true; }, function () { return false; })
+        : Promise.resolve(true);
+    }
+    return cacheFondo[url];
   }
-  function activarFondo() { if (fondoListo) return; fondoListo = true; fondo(T[destino].video); }
+  function precargarVecinos(i) {
+    if (!fondoListo) return;
+    [i + 1, i - 1].forEach(function (k) { if (k >= 0 && k < N) precargar(T[k].fondo); });
+  }
+  // Cambia la clase sin transición CSS (para retirar una capa al instante)
+  function sinTransicion(el, fn) {
+    el.classList.add('sin-trans'); fn(); void el.offsetWidth; el.classList.remove('sin-trans');
+  }
+  function apagarFondos() {
+    capasFondo.forEach(function (im) { if (im._anim) { im._anim.cancel(); im._anim = null; } im.classList.remove('is-visible'); });
+  }
+  function fondo(i, dir) {
+    var url = T[i].fondo || null;
+    precargarVecinos(i);
+    if (!fondoListo || url === fondoActual) return;
+    fondoActual = url;
+    if (!url) { apagarFondos(); return; }
+    precargar(url).then(function (ok) {
+      if (url !== fondoActual) return;          // el usuario ya cambió de acto
+      if (!ok) { apagarFondos(); return; }      // fallback: queda el escenario con su velo, sin foto
+      var k = arriba === 0 ? 1 : 0, sig = capasFondo[k], im = imgsFondo[k];
+      if (sig._anim) { sig._anim.cancel(); sig._anim = null; }
+      if (sig.classList.contains('is-visible')) sinTransicion(sig, function () { sig.classList.remove('is-visible'); });
+      im.src = url;
+      var listo = typeof im.decode === 'function' ? im.decode() : Promise.resolve();
+      listo.then(function () { mostrarFondo(k, dir, url); }, function () { if (url === fondoActual) apagarFondos(); });
+    });
+  }
+  function mostrarFondo(k, dir, url) {
+    if (url !== fondoActual) return;
+    var sig = capasFondo[k], prev = arriba >= 0 && arriba !== k ? capasFondo[arriba] : null;
+    sig.style.zIndex = '1'; if (prev) prev.style.zIndex = '0';
+    arriba = k;
+    var b = animBarrido;
+    var conTelon = dir && waapi && !sinAnimacion() && !mqMovil.matches && b && b.playState === 'running' &&
+      (b.currentTime || 0) < DUR.escena * 0.4;
+    if (!conTelon) {
+      // Fundido CSS (--dur-escena); con reduced-motion la transición está anulada y el cambio es instantáneo
+      sig.classList.add('is-visible');
+      if (prev) prev.classList.remove('is-visible');
+      return;
+    }
+    // Telón de luz: la foto nueva aparece detrás de la línea dorada del barrido, con su mismo reloj.
+    // La anterior queda entera debajo hasta que el barrido termina de cruzar.
+    sinTransicion(sig, function () { sig.classList.add('is-visible'); });
+    var desde = dir > 0 ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)';
+    var a = sig.animate([{ clipPath: desde }, { clipPath: 'inset(0 0 0 0)' }], { duration: DUR.escena, easing: EASE.escena });
+    // Mismo reloj que el barrido. Si el barrido aún está pendiente (startTime null), los dos arrancan en el mismo cuadro.
+    if (b.startTime !== null) a.startTime = b.startTime;
+    sig._anim = a;
+    a.onfinish = function () {
+      if (sig._anim === a) sig._anim = null;
+      if (prev && arriba === k) sinTransicion(prev, function () { prev.classList.remove('is-visible'); });
+    };
+  }
+  function activarFondo() {
+    if (fondoListo) return;
+    fondoListo = true;
+    fondo(destino, 0);
+  }
 
   // ---------- Transición de escena
   function cfg() {
@@ -182,10 +243,11 @@
     if (sinAnimacion()) {
       turno++; limpiar(anims); anims = []; fase = 'quieto';
       idx = i; pintarEscena(i); if (origen !== 'riel') anunciar(i);
+      fondo(i, 0);
       return;
     }
-    if (fase === 'saliendo') return; // el cambio de contenido usará el nuevo destino
-    salir(dir);
+    if (fase !== 'saliendo') salir(dir); // si ya está saliendo, el cambio de contenido usará el nuevo destino
+    fondo(i, dir);
   }
 
   function salir(dir) {
@@ -196,7 +258,7 @@
       var clip = c.clip && k === ANIO;
       var desde = estadoActual(el, clip);
       var hasta = { opacity: 0, transform: 'translate3d(' + (-dir * c.d) + 'px,0,0)' };
-      if (clip) hasta.clipPath = dir > 0 ? 'inset(-25% -6% -25% 106%)' : 'inset(-25% 106% -25% -6%)';
+      if (clip) hasta.clipPath = dir > 0 ? 'inset(-40% -8% -40% 108%)' : 'inset(-40% 108% -40% -8%)';
       el.style.willChange = clip ? 'transform, opacity, clip-path' : 'transform, opacity';
       nuevas.push(el.animate([desde, hasta], { duration: c.salida, delay: k * paso, easing: EASE.escena, fill: 'both' }));
     });
@@ -217,7 +279,7 @@
       var desde = { opacity: 0, transform: 'translate3d(' + (dir * c.d) + 'px,0,0)' };
       var hasta = { opacity: 1, transform: 'translate3d(0,0,0)' };
       if (clip) {
-        desde.clipPath = dir > 0 ? 'inset(-25% 106% -25% -6%)' : 'inset(-25% -6% -25% 106%)';
+        desde.clipPath = dir > 0 ? 'inset(-40% 108% -40% -8%)' : 'inset(-40% -8% -40% 108%)';
         hasta.clipPath = CLIP_REPOSO;
         desde.opacity = 1; // el año aparece por la cortina de luz, no por fundido
       }
@@ -263,6 +325,12 @@
       if (es.some(function (e) { return e.isIntersecting; })) { activarFondo(); ioFondo.disconnect(); }
     }, { rootMargin: '50% 0px' });
     ioFondo.observe(escena);
+
+    // Zoom lento del fondo (Ken Burns): solo capa extra y solo mientras la sección está a la vista
+    var ioVisto = new IntersectionObserver(function (es) {
+      sec.classList.toggle('is-visto', es.some(function (e) { return e.isIntersecting; }));
+    });
+    ioVisto.observe(escena);
 
     if (mqExtra.matches && waapi && !document.hidden) {
       telonOn = true;
@@ -316,11 +384,16 @@
       // Salta sin animar (el escenario no está a la vista) y luego lleva la página a la sección
       turno++; limpiar(anims); anims = []; fase = 'quieto';
       capas.forEach(function (el) { el.style.willChange = ''; });
-      destino = idx = i; pintarRiel(i); pintarEscena(i); anunciar(i);
+      destino = idx = i; pintarRiel(i); pintarEscena(i); anunciar(i); fondo(i, 0);
+      if (window.JCIrA) { window.JCIrA(sec); return; }
       var top = sec.getBoundingClientRect().top + window.scrollY - 60;
       window.scrollTo({ top: top, behavior: mqReduce.matches ? 'auto' : 'smooth' });
     });
   });
+
+  function capaKB() { sec.classList.toggle('tray--kb', mqExtra.matches); }
+  capaKB();
+  if (mqExtra.addEventListener) mqExtra.addEventListener('change', capaKB);
 
   // ---------- API pública
   window.JCTrayectoria = { ir: function (i) { ir(i, 'api'); } };
