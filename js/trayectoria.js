@@ -404,3 +404,30 @@
   fase = 'quieto';
   window.addEventListener('resize', function () { centrarPestana(destino); }, { passive: true });
 })();
+
+// ---------- Marca de agua tipográfica + luz ambiente por capítulo (reemplaza las fotos de fondo).
+// Se engancha a lo que ya pinta la escena (#tMeta = etapa, #tCap = capítulo) sin tocar su animación.
+(function () {
+  var panel = document.getElementById('tPanel'), meta = document.getElementById('tMeta'), cap = document.getElementById('tCap');
+  if (!panel || !meta) return;
+  var marca = document.createElement('div');
+  marca.className = 'tray__marca'; marca.setAttribute('aria-hidden', 'true');
+  marca.innerHTML = '<span class="tray__marca-txt"></span>';
+  var foco = panel.querySelector('.tray__foco');
+  panel.insertBefore(marca, foco ? foco.nextSibling : panel.firstChild);
+  var txt = marca.firstChild, actual = null, t1;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function slug(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-'); }
+  function pintar() {
+    var etapa = meta.textContent.trim();
+    panel.setAttribute('data-capitulo', slug(cap ? cap.textContent : ''));
+    if (!etapa || etapa === actual) return;
+    var primera = actual === null; actual = etapa;
+    clearTimeout(t1);
+    if (primera || reduce.matches) { txt.textContent = etapa; marca.classList.add('is-visible'); return; }
+    marca.classList.remove('is-visible');
+    t1 = setTimeout(function () { txt.textContent = etapa; marca.classList.add('is-visible'); }, 380);
+  }
+  pintar();
+  new MutationObserver(pintar).observe(meta, { childList: true, characterData: true, subtree: true });
+})();

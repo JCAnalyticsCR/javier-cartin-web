@@ -227,3 +227,35 @@
   .tray__fondo img{animation:none !important}
   .tray__barrido,.tray__telon{display:none !important}
 }
+
+/* ── Escenario sin fotos: marca de agua tipográfica + luz ambiente por capítulo ──────────
+   El nombre de la etapa, enorme, en serif itálica y solo con contorno dorado, a la derecha.
+   Cambia con fundido solo cuando cambia la etapa (los actos de La Pandylla la comparten). */
+.tray__fondo{display:none}
+.tray__escena{--tray-tinte:rgba(201,161,90,.10)}
+.tray__escena::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 85% at 82% 55%,var(--tray-tinte),transparent 70%),
+    radial-gradient(ellipse 40% 60% at 8% 100%,rgba(201,161,90,.05),transparent 70%);
+  transition:background var(--dur-escena) var(--ease-escena)}
+.tray__escena[data-capitulo="preludio"]{--tray-tinte:rgba(214,170,96,.12)}
+.tray__escena[data-capitulo="capitulo-i"]{--tray-tinte:rgba(176,106,62,.16)}
+.tray__escena[data-capitulo="capitulo-ii"]{--tray-tinte:rgba(122,32,48,.30)}
+.tray__escena[data-capitulo="capitulo-iii"]{--tray-tinte:rgba(150,112,58,.18)}
+.tray__escena[data-capitulo="capitulo-iv"]{--tray-tinte:rgba(224,189,124,.13)}
+.tray__marca{position:absolute;z-index:1;right:clamp(16px,4vw,64px);top:50%;max-width:62%;pointer-events:none;
+  transform:translate3d(24px,-46%,0);opacity:0;
+  transition:opacity var(--dur-ui) var(--ease-salida),transform var(--dur-seccion) var(--ease-cine)}
+.tray__marca.is-visible{opacity:1;transform:translate3d(0,-50%,0)}
+.tray__marca-txt{display:block;font-family:var(--serif);font-style:italic;font-weight:500;
+  font-size:clamp(72px,min(10vw,22svh),176px);line-height:.95;text-align:right;text-wrap:balance;letter-spacing:-.01em;
+  color:transparent;-webkit-text-stroke:1px rgba(224,189,124,.30);
+  background:linear-gradient(100deg,rgba(224,189,124,.07),rgba(224,189,124,.015));-webkit-background-clip:text;background-clip:text;
+  padding:.1em .12em .22em}
+@media (max-width:767px){
+  .tray__marca{right:12px;top:34%;max-width:80%}
+  .tray__marca-txt{font-size:clamp(54px,17vw,84px);-webkit-text-stroke:1px rgba(224,189,124,.22)}
+}
+@media (prefers-reduced-motion:reduce){
+  .tray__marca,.tray__escena::before{transition:none}
+}

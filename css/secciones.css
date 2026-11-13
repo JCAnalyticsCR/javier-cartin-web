@@ -117,3 +117,11 @@
   .gallery figure.is-extra{transition:none;transform:none}
   .gallery__btn svg{transition:none}
 }
+
+/* Crédito del estudio: pequeño y discreto, fila propia bajo el pie */
+.footer__credito{flex-basis:100%;display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 0;padding-top:16px;border-top:1px solid rgba(201,161,90,.14);opacity:.55;transition:opacity var(--dur-micro)}
+.footer__credito:hover{opacity:.9}
+.footer__credito span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#b9b0a0}
+.footer__credito img{display:block;height:20px;width:auto}
+@media (max-width:767px){ .footer__credito img{height:17px} .footer__credito span{font-size:9px} }
+.gallery__btn[aria-expanded="true"] .gallery__btn-n{display:none}

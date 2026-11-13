@@ -485,3 +485,59 @@ blockquote.fading {
   blockquote                          { transition: none; }
   .dots button::before                { transition: none; }
 }
+
+/* ==========================================================================
+   HERO MÓVIL — versión propia (no un parche del escritorio).
+   Retrato arriba a sangre con la cara despejada, que se funde a negro; texto debajo,
+   nombre en una línea, botones lado a lado visibles sin bajar; etapas en tira deslizable.
+   ========================================================================== */
+@media (max-width:767px) {
+  .hero { --foto-h: min(64svh, 560px); height: auto; min-height: 0; padding-bottom: 0; }
+  .hero__photo {
+    left: 0; right: 0; top: 0; width: 100%; height: var(--foto-h);
+    aspect-ratio: auto; opacity: 1; transform: none;
+  }
+  .hero__photo img {
+    object-position: 66% 14%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+  }
+  .hero__spotlight { left: 0; right: 0; width: 100%; height: var(--foto-h); aspect-ratio: auto; }
+  .hero__scrim {
+    background: linear-gradient(to bottom,
+      rgba(11,10,9,.6) 0, rgba(11,10,9,0) 16%, rgba(11,10,9,0) 44%,
+      rgba(11,10,9,.72) calc(var(--foto-h) - 90px), var(--negro-2) var(--foto-h));
+  }
+  .hero__fade { display: none; }
+
+  .hero__text { padding: calc(var(--foto-h) - 150px) var(--pad) 0; max-width: none; }
+  .hero .eyebrow { font-size: 11px; letter-spacing: .2em; }
+  .hero h1 { font-size: clamp(44px, 13.6vw, 64px); white-space: nowrap; margin-top: 10px; }
+  .hero__tag { margin-top: 6px; font-size: clamp(20px, 5.8vw, 26px); }
+  .hero p { margin: 14px 0 22px; font-size: 15.5px; line-height: 1.6; }
+  .hero .btns { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; }
+  .hero .btns .btn { padding: 15px 8px; font-size: 13px; }
+
+  /* Etapas: tira horizontal deslizable con snap, cada etapa como placa */
+  .eras {
+    position: relative; left: auto; right: auto; bottom: auto;
+    display: flex; gap: 10px; margin: 30px 0 0; padding: 16px var(--pad) 26px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: var(--pad);
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    border-top: 1px solid var(--filete);
+  }
+  .eras::-webkit-scrollbar { display: none; }
+  .eras button,
+  .eras button + button,
+  .eras button:nth-child(3),
+  .eras button:nth-child(4) {
+    flex: 0 0 auto; min-width: 148px; scroll-snap-align: start;
+    border: 1px solid var(--filete); padding: 12px 16px; border-left: 1px solid var(--filete);
+  }
+  .eras strong { font-size: 19px; }
+  .eras span { font-size: 10px; }
+}
+@media (max-width:359px) {
+  .hero h1 { font-size: 42px; }
+  .hero .btns { grid-template-columns: minmax(0,1fr); }
+}
