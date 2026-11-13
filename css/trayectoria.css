@@ -1,0 +1,21 @@
+/* TRAYECTORIA. Dueño: agente trayectoria */
+/* Trayectoria */
+.rail{margin-top:52px;overflow-x:auto;scrollbar-width:none;outline:none;padding:6px 0}
+.rail::-webkit-scrollbar{display:none}
+.rail__inner{position:relative;display:flex;min-width:740px}
+.rail__line{position:absolute;left:4.1667%;right:4.1667%;top:6px;height:2px;background:rgba(201,161,90,.28)}
+.rail__fill{height:100%;width:0;background:var(--oro);transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.rail__tab{position:relative;flex:1;background:none;border:0;padding:0 0 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:14px;font-size:15px;color:var(--crema-2)}
+.rail__tab::before{content:"";width:14px;height:14px;border-radius:50%;border:2px solid var(--oro);background:var(--negro);transition:transform .3s,background .3s}
+.rail__tab.is-past::before{background:var(--oro)}
+.rail__tab.is-active{color:var(--oro);font-weight:600}
+.rail__tab.is-active::before{background:var(--oro);transform:scale(1.5)}
+.tdetail{margin-top:44px;border-top:1px solid rgba(201,161,90,.4);padding-top:36px;display:flex;flex-wrap:wrap;gap:clamp(24px,5vw,72px);align-items:center;min-height:250px}
+.tdetail__big{flex:1 1 300px;min-width:0;font-family:var(--serif);font-weight:600;font-size:clamp(84px,12vw,168px);line-height:.9;color:var(--oro);letter-spacing:-.02em;white-space:nowrap;transition:opacity .18s}
+.tdetail__body{flex:1.2 1 360px;min-width:0}
+#tFade{transition:opacity .18s}
+.tdetail p{margin:14px 0 0;font-family:var(--serif);font-weight:500;font-size:clamp(28px,3vw,38px);line-height:1.18;text-wrap:balance;min-height:2.36em}
+.tdetail__ctrl{display:flex;align-items:center;gap:14px;margin-top:28px;font-size:14px;letter-spacing:.14em;color:var(--crema-2)}
+.round{width:48px;height:48px;border-radius:50%;background:none;border:1px solid var(--oro);color:var(--oro);font-size:20px;cursor:pointer;transition:background .2s,color .2s}
+.round:hover{background:var(--oro);color:var(--negro)}
+

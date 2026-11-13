@@ -1,0 +1,71 @@
+/* ==========================================================================
+   BASE — tokens compartidos, globales, botones, aparición.
+   Dueño: integración (no lo editan los agentes de sección; si necesitás un
+   token nuevo, pedilo en tu reporte final).
+   ========================================================================== */
+:root{
+  /* Paleta */
+  --negro:#0b0a09; --negro-2:#070605; --carbon:#141110; --tinta:#1a1613;
+  --crema:#f3ecdd; --crema-2:#d9d0be; --crema-3:#e6dece;
+  --oro:#c9a15a; --oro-claro:#e0bd7c; --oro-hover:#dcb872; --oro-profundo:#8a6a32;
+  --vino:#5c1a25; --vino-texto:#6e1f2b; --gris:#5a4f45;
+  /* Oro "champán" metálico para títulos y filetes (usar con background-clip:text) */
+  --oro-metal:linear-gradient(100deg,#8a6a32 0%,#c9a15a 22%,#f1d9a0 46%,#c9a15a 64%,#9c7a3c 100%);
+  --filete:rgba(201,161,90,.35);          /* línea fina dorada */
+  --filete-fuerte:rgba(201,161,90,.6);
+  /* Tipografía */
+  --serif:'Cormorant Garamond',serif; --sans:'Work Sans',sans-serif;
+  --tracking-etiqueta:.28em;
+  /* Espaciado */
+  --pad:clamp(20px,5.6vw,72px); --sec:clamp(88px,11vw,152px);
+  /* Movimiento: ÚNICA fuente de duraciones y curvas del sitio.
+     Si una animación pide un valor que no está acá, está mal pensada. */
+  --dur-micro:200ms; --dur-ui:380ms; --dur-seccion:750ms; --dur-escena:1400ms; --dur-ambiente:20s;
+  --ease-salida:cubic-bezier(.2,.7,.2,1);   /* entradas, reveals */
+  --ease-escena:cubic-bezier(.65,0,.35,1);  /* cambios de escena */
+  --ease-cine:cubic-bezier(.16,1,.3,1);     /* expo.out: telón, cifras grandes */
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--negro);color:var(--crema);font-family:var(--sans);overflow-x:hidden}
+a{color:inherit}
+a:hover{color:var(--oro)}
+button{font-family:inherit}
+section{scroll-margin-top:60px}
+::placeholder{color:rgba(243,236,221,.55)}
+
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--oro);z-index:60}
+.eyebrow{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--oro);font-weight:500}
+.eyebrow--vino{color:var(--vino-texto);font-weight:600}
+.eyebrow--light{color:var(--oro-claro);font-weight:600}
+.muted{color:var(--gris);font-size:16px;margin-top:6px}
+
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;text-decoration:none;text-align:center;font-weight:600;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:16px 28px;border:1px solid transparent;background:none;color:inherit;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.btn--gold{background:var(--oro);color:var(--negro)} .btn--gold:hover{background:var(--oro-hover);color:var(--negro)}
+.btn--gold2{background:var(--oro-claro);color:#1a0a0d;flex:1 1 170px} .btn--gold2:hover{background:var(--crema)}
+.btn--line{border-color:var(--crema)} .btn--line:hover{background:var(--crema);color:var(--negro)}
+.btn--cream{background:var(--crema);color:var(--vino)} .btn--cream:hover{background:#fff;color:var(--vino)}
+.btn--ghost{border-color:rgba(243,236,221,.55)} .btn--ghost:hover{border-color:var(--crema)}
+.contacto .btn--line:hover{color:var(--vino)}
+
+/* Grano de película: textura sutil global, sin peticiones */
+.grano{position:fixed;inset:0;z-index:70;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.oro-metal{background:var(--oro-metal);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* Secciones oscuras genéricas */
+.section{padding:var(--sec) var(--pad)}
+.section__head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px}
+h2{margin:0;font-family:var(--serif);font-weight:600;font-size:clamp(48px,5.4vw,64px);line-height:1}
+
+
+/* Aparición al hacer scroll (solo si hay JS) */
+.js-reveal .reveal{opacity:0;transform:translateY(28px);transition:opacity var(--dur-seccion) ease,transform var(--dur-seccion) var(--ease-salida)}
+.js-reveal .reveal.is-in{opacity:1;transform:none}
+
+:focus-visible{outline:1px solid var(--oro-claro);outline-offset:4px}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js-reveal .reveal{opacity:1;transform:none;transition:none}
+}
