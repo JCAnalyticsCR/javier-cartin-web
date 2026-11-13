@@ -1,4 +1,4 @@
-// TRAYECTORIA — "Noche de gala en doce actos". Incluye los botones [data-era] del hero.
+// TRAYECTORIA — "Noche de gala en trece actos". Incluye los botones [data-era] del hero.
 // Dueño: agente trayectoria. Sin dependencias. Expone window.JCTrayectoria = { ir(i) }.
 (function () {
   var S = window.SITE, $ = function (id) { return document.getElementById(id); };
