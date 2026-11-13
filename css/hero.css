@@ -541,3 +541,11 @@ blockquote.fading {
   .hero h1 { font-size: 42px; }
   .hero .btns { grid-template-columns: minmax(0,1fr); }
 }
+
+/* Historia: la altura de la cita la fija hero.js (frase más larga); sin hueco reservado */
+.quote-box { min-height: 0; }
+@media (max-width:767px) {
+  .historia { gap: 28px; }
+  .quote-box { margin-top: 18px; padding-top: 0; padding-bottom: 0; }
+  .quote-meta { margin-top: 14px; }
+}

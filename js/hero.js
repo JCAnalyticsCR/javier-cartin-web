@@ -57,6 +57,19 @@
   paintQuote();
   startQuotes();
 
+  // Alto de la cita = el de la frase más larga en este ancho (sin hueco fijo y sin saltos al rotar)
+  function medirCita() {
+    var actual = quote.textContent, max = 0;
+    quote.style.minHeight = '0px';
+    S.frases.forEach(function (f) { quote.textContent = '“' + f + '”'; max = Math.max(max, quote.offsetHeight); });
+    quote.textContent = actual;
+    quote.style.minHeight = max + 'px';
+  }
+  medirCita();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(medirCita);
+  var tCita;
+  window.addEventListener('resize', function () { clearTimeout(tCita); tCita = setTimeout(medirCita, 150); });
+
   /* ------------------------------------------------------------------
      PARALLAX SUAVE DEL RETRATO AL MOVER EL PUNTERO
      Solo en escritorio (hover:hover) con rAF + lerp.

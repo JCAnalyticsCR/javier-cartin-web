@@ -253,8 +253,7 @@
   background:linear-gradient(100deg,rgba(224,189,124,.07),rgba(224,189,124,.015));-webkit-background-clip:text;background-clip:text;
   padding:.1em .12em .22em}
 @media (max-width:767px){
-  .tray__marca{right:12px;top:34%;max-width:80%}
-  .tray__marca-txt{font-size:clamp(54px,17vw,84px);-webkit-text-stroke:1px rgba(224,189,124,.22)}
+  .tray__marca{display:none}   /* en celular no hay espacio sin pisar el año: queda solo la luz por capítulo */
 }
 @media (prefers-reduced-motion:reduce){
   .tray__marca,.tray__escena::before{transition:none}

@@ -69,3 +69,6 @@ h2{margin:0;font-family:var(--serif);font-weight:600;font-size:clamp(48px,5.4vw,
   html{scroll-behavior:auto}
   .js-reveal .reveal{opacity:1;transform:none;transition:none}
 }
+
+/* Celular: secciones más compactas (menos aire vertical, se aprovecha la pantalla) */
+@media (max-width:767px){ :root{ --sec:56px; } }
