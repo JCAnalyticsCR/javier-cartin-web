@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Javier Cartín · Cantante Costarricense</title>
+<meta name="description" content="Javier Cartín, cantante costarricense. De La Banda a La Pandylla, de La Selección a los escenarios de hoy. Contacto y contrataciones.">
+<meta property="og:title" content="Javier Cartín · Cantante Costarricense">
+<meta property="og:image" content="assets/javier-cartin.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#inicio">Javier Cartín</a>
+  <nav class="nav__links">
+    <a href="#historia">Historia</a><a href="#trayectoria">Trayectoria</a><a href="#videos">Videos</a><a href="#galeria">Galería</a>
+    <a class="nav__cta" href="#contacto">Contrataciones</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="hero__photo" id="heroPhoto"><img src="assets/javier-cartin.jpg" alt="Retrato de Javier Cartín"></div>
+  <div class="hero__scrim"></div>
+  <div class="hero__fade"></div>
+  <div class="hero__text">
+    <div class="eyebrow reveal">Cantante costarricense · San Ramón de Alajuela</div>
+    <h1 class="reveal" data-delay="120">Javier Cartín</h1>
+    <div class="hero__tag reveal" data-delay="240">la voz que enamoró a Costa Rica</div>
+    <p class="reveal" data-delay="360">De La Banda a La Pandylla, de La Selección a los escenarios de hoy: una vida entera detrás del micrófono.</p>
+    <div class="btns reveal" data-delay="480">
+      <a class="btn btn--gold" href="#videos">Ver video</a>
+      <a class="btn btn--line" href="#contacto">Contactar</a>
+    </div>
+  </div>
+  <div class="eras">
+    <button data-era="1"><strong>La Banda</strong><span>Finales de los 70 →</span></button>
+    <button data-era="2"><strong>La Pandylla</strong><span>Años 80 →</span></button>
+    <button data-era="5"><strong>La Selección</strong><span>Años 90 →</span></button>
+    <button data-era="6"><strong>Solista</strong><span>Desde finales de los 90 →</span></button>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true"><div class="marquee__track" id="marquee"></div></div>
+
+<section class="historia" id="historia">
+  <div class="historia__quote reveal">
+    <div class="eyebrow eyebrow--vino">Su historia</div>
+    <div class="quote-box"><blockquote id="quote"></blockquote></div>
+    <div class="quote-meta"><span>Javier Cartín</span><div class="dots" id="quoteDots"></div></div>
+  </div>
+  <div class="historia__bio reveal" data-delay="150">
+    <p>Javier Cartín Varela nació en San Ramón de Alajuela y a los 16 años ya andaba subido a los escenarios. Fue la voz de La Banda a finales de los setenta y después de La Pandylla, uno de los grupos más queridos de los ochenta. Con ellos pasó de baladas que todavía se cantan de memoria, como “De mañana en adelante” y “Una niña, una historia”, a merengues que llenaron las pistas, como “Amor perdido” y “Yo no sé qué me pasó”.</p>
+    <p>En los noventa siguió poniendo a bailar al país con La Selección y la Orquesta de Gene Chambers. Después emprendió su camino como solista con <em>Siempre romántico</em> y <em>Las cosas que nos pasan</em>, y llevó su voz al Estadio Nacional con los AuténTicos, al “Represento” de CR Music All Stars y a “Petición por mi Costa Rica”.</p>
+    <p>Hoy sigue cantando con la misma entrega, porque, como él dice, “si volviera a nacer, escogería ser cantante”. Gracias, Javier, por ponerle voz a nuestros recuerdos.</p>
+  </div>
+</section>
+
+<section class="section" id="trayectoria">
+  <div class="section__head reveal"><h2>Trayectoria</h2><span class="eyebrow">1973 — 2026</span></div>
+  <div class="rail reveal" data-delay="100" id="rail" tabindex="0" aria-label="Línea de tiempo, use las flechas del teclado">
+    <div class="rail__inner"><div class="rail__line"><div class="rail__fill" id="railFill"></div></div></div>
+  </div>
+  <div class="tdetail reveal" data-delay="200">
+    <div class="tdetail__big" id="tBig"></div>
+    <div class="tdetail__body">
+      <div id="tFade"><div class="eyebrow" id="tMeta"></div><p id="tText"></p></div>
+      <div class="tdetail__ctrl">
+        <button class="round" id="tPrev" aria-label="Anterior">←</button>
+        <button class="round" id="tNext" aria-label="Siguiente">→</button>
+        <span id="tCount"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="videos" id="videos">
+  <div class="videos__main reveal">
+    <div class="player" id="player"></div>
+    <div class="videos__cap">
+      <div><h3 id="vTitle"></h3><div class="muted" id="vSub"></div></div>
+      <a id="vUrl" target="_blank" rel="noopener">Abrir en YouTube ↗</a>
+    </div>
+  </div>
+  <div class="videos__list reveal" data-delay="150">
+    <div class="eyebrow eyebrow--vino">Videos</div>
+    <div class="playlist" id="playlist"></div>
+  </div>
+</section>
+
+<section class="section" id="galeria">
+  <div class="section__head reveal"><h2>Galería</h2></div>
+  <div class="gallery reveal" data-delay="120" id="gallery"></div>
+</section>
+
+<section class="contacto" id="contacto">
+  <div class="contacto__info reveal">
+    <div class="eyebrow eyebrow--light">Contacto y contrataciones</div>
+    <a class="phone" href="tel:+50687487167">8748 7167</a>
+    <a class="mail" href="mailto:javier.cartin@gmail.com">javier.cartin@gmail.com</a>
+    <div class="btns">
+      <a class="btn btn--cream" href="tel:+50687487167">Llamar</a>
+      <a class="btn btn--line" href="https://wa.me/50687487167" target="_blank" rel="noopener" data-whatsapp>WhatsApp</a>
+      <button class="btn btn--ghost" id="copyBtn">Copiar número</button>
+    </div>
+    <div class="social">
+      <a href="https://www.facebook.com/javiercartinoficial" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.instagram.com/javiercartin/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/@javiercartin5575" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://music.apple.com/cr/artist/javier-cartin/1521664752" target="_blank" rel="noopener">Apple Music</a>
+    </div>
+  </div>
+  <form class="form reveal" data-delay="150" id="form" novalidate>
+    <div class="form__title">Solicite una fecha</div>
+    <label>Nombre<input name="nombre" placeholder="Su nombre" autocomplete="name"></label>
+    <div class="form__row">
+      <label>Tipo de evento<select name="tipo"><option>Concierto</option><option>Serenata</option><option>Evento privado</option><option>Evento de empresa</option><option>Otro</option></select></label>
+      <label>Fecha<input type="date" name="fecha"></label>
+    </div>
+    <label>Mensaje<textarea name="mensaje" rows="3" placeholder="Lugar, horario y detalles"></textarea></label>
+    <div class="form__err" id="formErr" role="alert"></div>
+    <div class="btns">
+      <button type="button" class="btn btn--gold2" id="sendWa" data-whatsapp>Enviar por WhatsApp</button>
+      <button type="button" class="btn btn--line" id="sendMail">Enviar por correo</button>
+    </div>
+  </form>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="footer__id"><span class="flag"></span><span>Javier Cartín · Cantante Costarricense</span></div>
+  <div>San Ramón de Alajuela, Costa Rica</div>
+  <a href="#inicio">Volver arriba ↑</a>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
