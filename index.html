@@ -20,7 +20,10 @@
 <div class="grano" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
-  <a class="nav__logo" href="#inicio">Javier Cartín</a>
+  <a class="nav__logo" href="#inicio" aria-label="Javier Cartín · Inicio">
+    <span class="nav__logo-mono" aria-hidden="true">JC</span>
+    <span class="nav__logo-name">Javier Cartín</span>
+  </a>
   <nav class="nav__links">
     <a href="#historia">Historia</a><a href="#trayectoria">Trayectoria</a><a href="#videos">Videos</a><a href="#galeria">Galería</a>
     <a class="nav__cta" href="#contacto">Contrataciones</a>
@@ -29,13 +32,14 @@
 
 <main>
 <section class="hero" id="inicio">
-  <div class="hero__photo" id="heroPhoto"><img src="assets/javier-cartin.jpg" alt="Retrato de Javier Cartín"></div>
+  <div class="hero__photo" id="heroPhoto"><img src="assets/javier-cartin.jpg" alt="Retrato de Javier Cartín" fetchpriority="high"></div>
+  <div class="hero__spotlight" aria-hidden="true"></div>
   <div class="hero__scrim"></div>
   <div class="hero__fade"></div>
   <div class="hero__text">
-    <div class="eyebrow reveal">Cantante costarricense · San Ramón de Alajuela</div>
-    <h1 class="reveal" data-delay="120">Javier Cartín</h1>
-    <div class="hero__tag reveal" data-delay="240">la voz que enamoró a Costa Rica</div>
+    <div class="eyebrow reveal">Cantante · San Ramón de Alajuela</div>
+    <h1 class="oro-metal reveal" data-delay="120">Javier Cartín</h1>
+    <div class="hero__tag reveal" data-delay="240"><em>la voz que enamoró a Costa Rica</em></div>
     <p class="reveal" data-delay="360">De La Banda a La Pandylla, de La Selección a los escenarios de hoy: una vida entera detrás del micrófono.</p>
     <div class="btns reveal" data-delay="480">
       <a class="btn btn--gold" href="#videos">Ver video</a>
@@ -43,10 +47,10 @@
     </div>
   </div>
   <div class="eras">
-    <button data-era="1"><strong>La Banda</strong><span>Finales de los 70 →</span></button>
-    <button data-era="2"><strong>La Pandylla</strong><span>Años 80 →</span></button>
-    <button data-era="5"><strong>La Selección</strong><span>Años 90 →</span></button>
-    <button data-era="6"><strong>Solista</strong><span>Desde finales de los 90 →</span></button>
+    <button data-era="1"><strong>La Banda</strong><span>Finales de los 70</span></button>
+    <button data-era="2"><strong>La Pandylla</strong><span>Años 80</span></button>
+    <button data-era="5"><strong>La Selección</strong><span>Años 90</span></button>
+    <button data-era="6"><strong>Solista</strong><span>Desde los 90</span></button>
   </div>
 </section>
 
@@ -66,19 +70,40 @@
 </section>
 
 <section class="section" id="trayectoria">
-  <div class="section__head reveal"><h2>Trayectoria</h2><span class="eyebrow">1973 — 2026</span></div>
-  <div class="rail reveal" data-delay="100" id="rail" tabindex="0" aria-label="Línea de tiempo, use las flechas del teclado">
-    <div class="rail__inner"><div class="rail__line"><div class="rail__fill" id="railFill"></div></div></div>
-  </div>
-  <div class="tdetail reveal" data-delay="200">
-    <div class="tdetail__big" id="tBig"></div>
-    <div class="tdetail__body">
-      <div id="tFade"><div class="eyebrow" id="tMeta"></div><p id="tText"></p></div>
-      <div class="tdetail__ctrl">
-        <button class="round" id="tPrev" aria-label="Anterior">←</button>
-        <button class="round" id="tNext" aria-label="Siguiente">→</button>
-        <span id="tCount"></span>
+  <header class="tray__head reveal">
+    <div>
+      <div class="eyebrow">Una vida sobre el escenario</div>
+      <h2 id="trayTitulo">Trayectoria</h2>
+    </div>
+    <div class="tray__fechas"><span>1973</span><i aria-hidden="true"></i><span>2026</span><small>Doce actos</small></div>
+  </header>
+
+  <div class="tray__escena reveal" data-delay="100" id="tPanel" role="tabpanel">
+    <div class="tray__fondo" aria-hidden="true"><img id="tFondoA" alt="" decoding="async" referrerpolicy="no-referrer"><img id="tFondoB" alt="" decoding="async" referrerpolicy="no-referrer"></div>
+    <div class="tray__foco" aria-hidden="true"></div>
+    <div class="tray__barrido" id="tBarrido" aria-hidden="true"></div>
+    <div class="tray__contenido">
+      <div class="tray__marco">
+        <div class="tray__acto" id="tActoCapa"><span class="tray__et">Acto</span><span class="tray__acto-n oro-metal" id="tCount"></span><span class="tray__acto-total">/ <span id="tTotal"></span></span></div>
+        <div class="tray__capitulo" id="tCapCapa"><span class="tray__et" id="tCap"></span><span class="tray__etapa" id="tMeta"></span><span class="tray__nota" id="tNota"></span></div>
       </div>
+      <div class="tray__anio-wrap" id="tAnioCapa"><span class="tray__circa" id="tCirca" hidden>circa</span><span class="tray__anio oro-metal" id="tBig"></span></div>
+      <div class="tray__pie">
+        <div class="tray__textos" id="tTextos"><p class="tray__texto" id="tText"></p></div>
+        <div class="tray__ctrl">
+          <button class="tray__btn" id="tPrev" type="button" aria-label="Acto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M20 12H4M10 6l-6 6 6 6"/></svg></button>
+          <p class="tray__pista" aria-hidden="true">Deslice para cambiar de acto</p>
+          <button class="tray__btn" id="tNext" type="button" aria-label="Acto siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <div class="tray__telon" aria-hidden="true"></div>
+  </div>
+  <p class="tray__sr" id="tVivo" aria-live="polite" aria-atomic="true"></p>
+
+  <div class="tray__riel reveal" data-delay="200" id="rail">
+    <div class="tray__riel-in" id="tRielIn" role="tablist" aria-label="Línea de tiempo: elija un acto (flechas izquierda y derecha)">
+      <div class="tray__regla" aria-hidden="true"><span class="tray__linea"></span><span class="tray__fill"></span><span class="tray__cursor"></span></div>
     </div>
   </div>
 </section>
@@ -120,7 +145,10 @@
     </div>
   </div>
   <form class="form reveal" data-delay="150" id="form" novalidate>
-    <div class="form__title">Solicite una fecha</div>
+    <div class="form__header">
+      <div class="eyebrow eyebrow--light">Contrataciones</div>
+      <div class="form__title">Solicite una fecha</div>
+    </div>
     <label>Nombre<input name="nombre" placeholder="Su nombre" autocomplete="name"></label>
     <div class="form__row">
       <label>Tipo de evento<select name="tipo"><option>Concierto</option><option>Serenata</option><option>Evento privado</option><option>Evento de empresa</option><option>Otro</option></select></label>

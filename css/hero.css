@@ -1,57 +1,481 @@
-/* HERO — nav, hero, marquesina, historia. Dueño: agente hero-historia */
-/* Nav */
-.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px var(--pad);border-bottom:1px solid transparent;transition:background .35s,border-color .35s}
-.nav.is-scrolled{background:rgba(11,10,9,.94);border-color:rgba(201,161,90,.35)}
-.nav__logo{font-family:var(--serif);font-weight:600;font-size:26px;letter-spacing:.02em;text-decoration:none;white-space:nowrap}
-.nav__links{display:flex;gap:clamp(16px,2.6vw,36px);align-items:center;font-size:14px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
-.nav__links a{text-decoration:none}
-.nav__cta{border:1px solid var(--oro);color:var(--oro);padding:10px 18px}
-.nav__cta:hover{background:var(--oro);color:var(--negro)}
+/* ==========================================================================
+   HERO.CSS — nav, hero, marquesina, historia.
+   Dueño: agente hero-historia.
+   ========================================================================== */
 
-/* Hero */
-.hero{position:relative;height:clamp(680px,100vh,900px);overflow:hidden}
-.hero__photo{position:absolute;right:0;top:0;height:100%;aspect-ratio:1/1;transform-origin:70% 30%;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 32%);mask-image:linear-gradient(to right,transparent 0,#000 32%)}
-.hero__photo img{width:100%;height:100%;object-fit:cover;display:block}
-.hero__scrim{position:absolute;inset:0;background:linear-gradient(to right,rgba(11,10,9,.82) 0,rgba(11,10,9,.38) 45%,transparent 66%)}
-.hero__fade{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(to bottom,transparent,var(--negro) 80%)}
-.hero__text{position:relative;padding:clamp(124px,20vh,176px) var(--pad) 0;max-width:720px}
-.hero h1{margin:22px 0 0;font-family:var(--serif);font-weight:600;font-size:clamp(64px,9vw,116px);line-height:.92;letter-spacing:-.01em;white-space:nowrap}
-.hero__tag{margin-top:14px;font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(28px,3.5vw,44px);line-height:1.1;color:var(--oro)}
-.hero p{margin:26px 0 34px;font-size:18px;line-height:1.6;max-width:480px;color:var(--crema-3);text-wrap:pretty}
-.eras{position:absolute;left:var(--pad);right:var(--pad);bottom:30px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2.5vw,32px);border-top:1px solid rgba(201,161,90,.5);padding-top:16px}
-.eras button{background:none;border:0;padding:0;text-align:left;cursor:pointer;color:var(--crema)}
-.eras button:hover{color:var(--oro)}
-.eras strong{display:block;font-family:var(--serif);font-size:clamp(19px,2vw,26px);font-weight:600}
-.eras span{font-size:13px;color:var(--oro);letter-spacing:.04em}
-
-/* Marquee */
-.marquee{overflow:hidden;border-top:1px solid rgba(201,161,90,.35);border-bottom:1px solid rgba(201,161,90,.35);padding:18px 0}
-.marquee__track{display:flex;width:max-content;font-family:var(--serif);font-style:italic;font-size:28px;white-space:nowrap;animation:marquee 45s linear infinite}
-.marquee__track span{padding-right:28px}
-.marquee__track i{color:var(--oro);font-style:normal;padding-right:28px}
-@keyframes marquee{to{transform:translateX(-50%)}}
-@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.07)}}
-.hero__photo{animation:kenburns 20s ease-in-out infinite alternate}
-
-/* Historia */
-.historia{background:var(--crema);color:var(--tinta);padding:var(--sec) var(--pad);display:flex;flex-wrap:wrap;gap:clamp(40px,7vw,88px)}
-.historia__quote{flex:5 1 340px;min-width:0}
-.historia__bio{flex:6 1 400px;min-width:0;font-size:18px;line-height:1.7;color:#2a2420;text-wrap:pretty}
-.historia__bio p{margin:0 0 20px}
-.quote-box{min-height:250px;margin-top:28px}
-blockquote{margin:0;font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(38px,4.2vw,54px);line-height:1.08;text-wrap:balance;transition:opacity .35s}
-.quote-meta{display:flex;align-items:center;gap:16px;margin-top:8px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--vino-texto)}
-.dots{display:flex}
-.dots button{width:28px;height:28px;background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.dots button::before{content:"";width:10px;height:10px;border-radius:50%;border:1px solid var(--vino-texto)}
-.dots button.is-active::before{background:var(--vino-texto)}
-
-
-@media (max-width:860px){
-  .nav__links a:not(.nav__cta){display:none}
-  .eras{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:14px}
-  .hero{height:auto;min-height:100vh;padding-bottom:190px}
+/* --------------------------------------------------------------------------
+   NAV
+   -------------------------------------------------------------------------- */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px var(--pad);
+  border-bottom: 1px solid transparent;
+  transition: background var(--dur-ui) var(--ease-salida),
+              border-color var(--dur-ui) var(--ease-salida),
+              padding var(--dur-ui) var(--ease-salida);
 }
-@media (prefers-reduced-motion:reduce){
-  .marquee__track,.hero__photo{animation:none}
+.nav.is-scrolled {
+  background: rgba(11,10,9,.95);
+  border-color: var(--filete);
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+
+/* Monograma JC + nombre */
+.nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.nav__logo-mono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--filete-fuerte);
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: .04em;
+  color: var(--oro);
+  flex-shrink: 0;
+  transition: border-color var(--dur-micro);
+}
+.nav__logo:hover .nav__logo-mono { border-color: var(--oro); }
+.nav__logo-name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: .03em;
+  color: var(--crema);
+  transition: color var(--dur-micro);
+}
+.nav__logo:hover .nav__logo-name { color: var(--oro); }
+
+/* Links */
+.nav__links {
+  display: flex;
+  gap: clamp(16px,2.6vw,36px);
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: var(--tracking-etiqueta);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.nav__links a { text-decoration: none; transition: color var(--dur-micro); }
+.nav__links a:not(.nav__cta):hover { color: var(--oro); }
+
+/* CTA "Contrataciones" — filete dorado refinado */
+.nav__cta {
+  border: 1px solid var(--filete-fuerte);
+  color: var(--oro);
+  padding: 10px 22px;
+  font-size: 11px;
+  letter-spacing: var(--tracking-etiqueta);
+  transition: background var(--dur-micro), color var(--dur-micro), border-color var(--dur-micro);
+}
+.nav__cta:hover {
+  background: var(--oro);
+  color: var(--negro);
+  border-color: var(--oro);
+}
+/* Foco visible en nav */
+.nav__cta:focus-visible { outline-offset: 3px; }
+
+/* --------------------------------------------------------------------------
+   HERO
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  height: clamp(680px,100vh,960px);
+  overflow: hidden;
+  background: var(--negro-2);
+}
+
+/* Foto: anclada a la derecha con máscara de degradado a la izquierda */
+.hero__photo {
+  position: absolute;
+  right: 0; top: 0;
+  height: 100%;
+  aspect-ratio: 1/1;
+  transform-origin: 65% 25%;
+}
+.hero__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 28%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 28%);
+}
+
+/* Halo / spotlight de escenario sobre la foto */
+.hero__spotlight {
+  position: absolute;
+  right: 0; top: 0;
+  height: 100%;
+  aspect-ratio: 1/1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 70% at 60% 28%, rgba(201,161,90,.13) 0%, transparent 68%),
+    radial-gradient(ellipse 30% 45% at 65% 15%, rgba(240,215,160,.09) 0%, transparent 60%);
+  mix-blend-mode: screen;
+}
+
+/* Scrim y fade-out inferior */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(11,10,9,.88) 0%,
+    rgba(11,10,9,.44) 42%,
+    transparent 62%
+  );
+}
+.hero__fade {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 320px;
+  background: linear-gradient(to bottom, transparent, var(--negro) 85%);
+}
+
+/* Texto del hero */
+.hero__text {
+  position: relative;
+  z-index: 2;
+  padding: clamp(120px,19vh,172px) var(--pad) 0;
+  max-width: 760px;
+}
+
+/* Eyebrow: etiqueta superior — reveal estándar de base.css; solo redefinimos tracking */
+.hero .eyebrow {
+  letter-spacing: var(--tracking-etiqueta);
+}
+
+/* Título h1 — telón de entrada
+   clip-path SOLO dentro de .js-reveal → sin JS el h1 es visible.
+   Especificidad (0,2,1) supera (0,2,0) de .js-reveal .reveal para
+   que la transition incluya clip-path.                             */
+.hero h1 {
+  margin: 20px 0 0;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(64px,9vw,116px);
+  line-height: .92;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  /* clase .oro-metal aplicada en HTML para el gradiente metálico */
+}
+.js-reveal .hero h1 {
+  clip-path: inset(0 100% 0 0);  /* estado inicial cuando hay JS */
+  transform: none;               /* sin translateY — el telón es el reveal */
+  transition: clip-path var(--dur-seccion) var(--ease-cine),
+              opacity var(--dur-seccion) var(--ease-salida);
+}
+.js-reveal .hero h1.is-in {
+  clip-path: inset(0 0% 0 0);   /* telón abierto */
+}
+
+/* Lema itálico */
+.hero__tag {
+  margin-top: 16px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(26px,3.2vw,42px);
+  line-height: 1.1;
+  color: var(--crema-3);
+}
+
+/* Párrafo descriptivo */
+.hero p {
+  margin: 24px 0 32px;
+  font-size: 17px;
+  line-height: 1.65;
+  max-width: 460px;
+  color: rgba(230,222,206,.75);
+  text-wrap: pretty;
+}
+
+/* Botones */
+.hero .btns { gap: 14px; }
+
+/* --------------------------------------------------------------------------
+   FRANJA DE ERAS (bottom del hero)
+   -------------------------------------------------------------------------- */
+.eras {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px,2.5vw,28px);
+  border-top: 1px solid var(--filete);
+  padding: 20px 0 28px;
+}
+.eras button {
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  color: var(--crema-3);
+  transition: color var(--dur-micro);
+  min-height: 44px;        /* objetivo táctil */
+}
+.eras button:hover { color: var(--oro); }
+.eras button:hover strong { color: var(--oro); }
+.eras strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(18px,1.9vw,24px);
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: var(--crema);
+  transition: color var(--dur-micro);
+}
+.eras span {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: var(--tracking-etiqueta);
+  text-transform: uppercase;
+  color: var(--filete-fuerte);
+}
+/* Separador decorativo entre eras */
+.eras button + button { border-left: 1px solid var(--filete); padding-left: clamp(10px,1.8vw,22px); }
+
+/* --------------------------------------------------------------------------
+   MARQUESINA DE CANCIONES
+   -------------------------------------------------------------------------- */
+.marquee {
+  overflow: hidden;
+  border-top: 1px solid var(--filete);
+  border-bottom: 1px solid var(--filete);
+  padding: 16px 0;
+  background: var(--negro-2);
+}
+.marquee__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(22px,2.4vw,30px);
+  white-space: nowrap;
+  animation: marquee 60s linear infinite;    /* velocidad más serena */
+}
+.marquee__track span {
+  padding: 0 20px;
+  color: var(--crema-3);
+}
+.marquee__track .orn {                       /* ornamento ✦ */
+  color: var(--oro);
+  font-style: normal;
+  font-size: .75em;
+  padding: 0 4px;
+  vertical-align: middle;
+  letter-spacing: 0;
+}
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* --------------------------------------------------------------------------
+   KEN-BURNS (foto hero) — sin definición en @media reduced-motion
+   -------------------------------------------------------------------------- */
+@keyframes kenburns { from { transform: scale(1) } to { transform: scale(1.055) } }
+.hero__photo { animation: kenburns 22s ease-in-out infinite alternate; }
+
+/* --------------------------------------------------------------------------
+   HISTORIA (#historia, fondo crema)
+   -------------------------------------------------------------------------- */
+.historia {
+  background: var(--crema);
+  color: var(--tinta);
+  padding: var(--sec) var(--pad);
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(44px,7vw,96px);
+}
+
+.historia__quote { flex: 5 1 340px; min-width: 0; }
+.historia__bio   { flex: 6 1 400px; min-width: 0; font-size: 18px; line-height: 1.75; color: #2a2420; text-wrap: pretty; }
+.historia__bio p { margin: 0 0 22px; }
+
+/* Drop cap en el primer párrafo */
+.historia__bio p:first-child::first-letter {
+  font-family: var(--serif);
+  font-size: 4.6em;
+  font-weight: 600;
+  line-height: .78;
+  float: left;
+  margin: .06em .15em 0 0;
+  color: var(--vino-texto);
+}
+
+/* Bloque de cita con comillas ornamentales grandes */
+.quote-box {
+  position: relative;
+  min-height: 260px;
+  margin-top: 32px;
+  padding: 8px 0 8px 48px;  /* espacio para la comilla */
+}
+/* Comilla ornamental de apertura */
+.quote-box::before {
+  content: '\201C';          /* " */
+  position: absolute;
+  left: -4px;
+  top: -18px;
+  font-family: var(--serif);
+  font-size: clamp(96px,10vw,128px);
+  line-height: 1;
+  color: var(--vino-texto);
+  opacity: .18;
+  pointer-events: none;
+  user-select: none;
+}
+
+blockquote {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(32px,3.8vw,50px);
+  line-height: 1.1;
+  text-wrap: balance;
+  color: var(--tinta);
+  transition: opacity var(--dur-ui) var(--ease-escena),
+              transform var(--dur-ui) var(--ease-escena);
+}
+blockquote.fading {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* Meta de la cita (nombre + dots) */
+.quote-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(92,26,37,.18);
+}
+.quote-meta > span {
+  font-size: 11px;
+  letter-spacing: var(--tracking-etiqueta);
+  text-transform: uppercase;
+  color: var(--vino-texto);
+  font-weight: 600;
+}
+
+/* Dots de navegación de frases */
+.dots { display: flex; gap: 6px; }
+.dots button {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* objetivo táctil ≥44px gracias al pseudo-element */
+}
+/* Ampliar área táctil sin agrandar el punto visual */
+.dots button::after {
+  content: "";
+  position: absolute;
+  width: 44px;
+  height: 44px;
+}
+.dots button::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(110,31,43,.5);
+  transition: background var(--dur-micro), border-color var(--dur-micro), transform var(--dur-micro);
+}
+.dots button.is-active::before {
+  background: var(--vino-texto);
+  border-color: var(--vino-texto);
+  transform: scale(1.25);
+}
+.dots button:hover::before { border-color: var(--vino-texto); }
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width:767px) {
+  /* Nav móvil: solo logo + CTA */
+  .nav__links a:not(.nav__cta) { display: none; }
+  .nav__logo-name { font-size: 18px; }
+  .nav { gap: 12px; }
+  .nav__cta { padding: 12px 14px; letter-spacing: .16em; min-height: 44px; display: inline-flex; align-items: center; }
+}
+@media (max-width:359px) {
+  .nav__logo-name { display: none; }
+}
+@media (max-width:767px) {
+
+  /* Hero móvil: sin intro de clip-path; contenido visible de inmediato */
+  .hero {
+    height: auto;
+    min-height: 100svh;
+    padding-bottom: 200px;
+  }
+  .hero h1 { white-space: normal; word-break: break-word; }
+  .js-reveal .hero h1,
+  .js-reveal .hero h1.is-in { clip-path: none; }   /* sin telón en móvil */
+  .js-reveal .hero h1 { transition: opacity var(--dur-seccion) var(--ease-salida); }
+  .hero__photo {
+    animation: none;              /* sin ken-burns en móvil (perf) */
+    right: -10%;
+    opacity: .55;
+  }
+  /* Eras en 2 columnas en móvil */
+  .eras {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 16px;
+  }
+  .eras button + button { border-left: 0; padding-left: 0; }
+  .eras button:nth-child(3) { border-top: 1px solid var(--filete); padding-top: 14px; }
+  .eras button:nth-child(4) { border-top: 1px solid var(--filete); padding-top: 14px; }
+  /* Historia: sin drop cap (puede desbordar en pantallas pequeñas) */
+  .historia__bio p:first-child::first-letter { all: unset; }
+  .quote-box { padding-left: 0; }
+  .quote-box::before { display: none; }
+}
+
+/* Capa extra: parallax del puntero solo en escritorio con hover y sin reduced-motion */
+@media (min-width:1024px) and (hover:hover) {
+  /* Activado desde hero.js con rAF + lerp */
+  .hero__photo { will-change: transform; }
+}
+
+/* --------------------------------------------------------------------------
+   REDUCED MOTION — mismo contenido, estático
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion:reduce) {
+  .hero__photo                        { animation: none; }
+  .marquee__track                     { animation: none; }
+  .js-reveal .hero h1,
+  .js-reveal .hero h1.is-in           { clip-path: none; }
+  .js-reveal .hero h1                 { transition: none; }
+  blockquote                          { transition: none; }
+  .dots button::before                { transition: none; }
 }
