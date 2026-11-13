@@ -549,3 +549,12 @@ blockquote.fading {
   .quote-box { margin-top: 18px; padding-top: 0; padding-bottom: 0; }
   .quote-meta { margin-top: 14px; }
 }
+
+/* Historia en celular: menos aire arriba y abajo, biografía más compacta */
+@media (max-width:767px) {
+  .historia { padding-top: 34px; padding-bottom: 40px; gap: 22px; }
+  .quote-box { margin-top: 12px; }
+  .historia__bio { font-size: 16px; line-height: 1.6; }
+  .historia__bio p { margin-bottom: 14px; }
+  .historia__bio p:last-child { margin-bottom: 0; }
+}

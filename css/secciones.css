@@ -125,3 +125,16 @@
 .footer__credito img{display:block;height:20px;width:auto}
 @media (max-width:767px){ .footer__credito img{height:17px} .footer__credito span{font-size:9px} }
 .gallery__btn[aria-expanded="true"] .gallery__btn-n{display:none}
+
+/* Videos en celular: compacto (menos aire, filas más bajas, título y enlace en una línea) */
+@media (max-width:767px){
+  .videos{padding-top:32px;padding-bottom:36px;gap:22px}
+  .videos__cap{margin-top:12px;padding-top:12px;gap:4px 12px}
+  .videos__cap h3{font-size:24px}
+  .videos__cap .muted{margin-top:2px;font-size:14px}
+  .videos__list .eyebrow{font-size:11px}
+  .playlist{margin-top:10px}
+  .playlist button{grid-template-columns:26px 1fr;gap:8px;padding:9px 6px;min-height:48px}
+  .playlist__title{font-size:17px;line-height:1.15}
+  .playlist__detail{margin-top:2px;font-size:10px;letter-spacing:.12em}
+}
