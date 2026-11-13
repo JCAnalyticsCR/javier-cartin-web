@@ -1,90 +1,80 @@
 /* ==========================================================================
-   CONTACTO — concierge de contrataciones.
-   Izquierda: tarjeta "Línea directa" sobre vino. Derecha: invitación en papel crema.
+   CONTRATACIONES — franja de reserva compacta.
+   Fila 1: título + tipos de evento | teléfono, correo y acciones directas.
+   Fila 2: formulario de una línea (nombre · evento · fecha · Solicitar).
    Pantalla de decisión: solo se mueve lo que el usuario toca.
    ========================================================================== */
 .contacto{
-  --papel:#f6efe1; --papel-filete:rgba(110,31,43,.28);
   position:relative;overflow:hidden;
-  padding:var(--sec) var(--pad);
+  padding:clamp(56px,7vw,88px) var(--pad) clamp(28px,3.5vw,40px);
   background:
-    radial-gradient(ellipse 60% 70% at 18% 30%,rgba(201,161,90,.13),transparent 70%),
-    radial-gradient(ellipse 50% 60% at 85% 90%,rgba(0,0,0,.35),transparent 70%),
+    radial-gradient(ellipse 50% 90% at 100% 0%,rgba(201,161,90,.12),transparent 70%),
     var(--vino);
   border-top:1px solid var(--filete);
 }
 
-/* Encabezado */
-.contacto__head{max-width:760px}
-.contacto__head h2{margin:18px 0 0;color:var(--crema);font-size:clamp(40px,5vw,64px);line-height:1.02;text-wrap:balance}
-.contacto__head p{margin:20px 0 0;max-width:560px;font-size:18px;line-height:1.65;color:rgba(243,236,221,.78);text-wrap:pretty}
+/* Fila 1 */
+.cx{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(28px,5vw,72px);align-items:end}
+.cx__intro h2{margin:14px 0 0;color:var(--crema);font-size:clamp(36px,4.2vw,56px);line-height:1.02;text-wrap:balance}
+.cx__tipos{margin:14px 0 0;font-family:var(--serif);font-style:italic;font-size:19px;color:rgba(243,236,221,.72)}
 
-.contacto__grid{margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(28px,4vw,56px);align-items:stretch}
+.cx__linea{display:flex;flex-direction:column;align-items:flex-end;text-align:right}
+.cx__tel{text-decoration:none;font-family:var(--serif);font-weight:600;font-size:clamp(46px,5vw,68px);line-height:1;white-space:nowrap;padding:.04em .06em .12em;margin:0 -.06em -.12em 0}
+.cx__mail{margin-top:8px;font-size:15px;color:var(--crema-2);text-decoration:none;border-bottom:1px solid rgba(243,236,221,.25);transition:color var(--dur-micro),border-color var(--dur-micro)}
+.cx__mail:hover{color:var(--oro-claro);border-color:var(--oro-claro)}
+.cx__acciones{display:flex;gap:10px;margin-top:20px}
 
-/* ── Línea directa ─────────────────────────────────────────────── */
-.linea{display:flex;flex-direction:column;padding:clamp(28px,3.4vw,44px);background:rgba(11,10,9,.28);border:1px solid rgba(224,189,124,.32)}
-.linea__et{font-size:11px;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;font-weight:600;color:var(--oro-claro)}
-.linea__tel{display:inline-block;align-self:flex-start;margin-top:14px;text-decoration:none;font-family:var(--serif);font-weight:600;font-size:clamp(48px,5.4vw,76px);line-height:1;letter-spacing:.01em;white-space:nowrap}
-.linea__mail{align-self:flex-start;margin-top:12px;font-size:17px;color:var(--crema-2);text-decoration:none;border-bottom:1px solid rgba(243,236,221,.3);padding-bottom:2px;transition:color var(--dur-micro),border-color var(--dur-micro)}
-.linea__mail:hover{color:var(--oro-claro);border-color:var(--oro-claro)}
+/* Botones de la franja */
+.cxb{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 20px;background:transparent;border:1px solid rgba(243,236,221,.45);color:var(--crema);font:inherit;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background var(--dur-micro),color var(--dur-micro),border-color var(--dur-micro)}
+.cxb svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
+.cxb:hover{background:var(--crema);border-color:var(--crema);color:var(--vino)}
+.cxb--oro{background:var(--oro-claro);border-color:var(--oro-claro);color:#1a0a0d}
+.cxb--oro:hover{background:var(--crema);border-color:var(--crema);color:#1a0a0d}
+.cxb--icono .accion__label{font-size:12px}
+.cxb.is-ok{border-color:var(--oro-claro);color:var(--oro-claro)}
+.contacto :focus-visible{outline:1px solid var(--oro-claro);outline-offset:3px}
 
-/* Acciones: lista de concierge con icono, texto y flecha */
-.acciones{margin-top:32px;display:flex;flex-direction:column;border-top:1px solid rgba(243,236,221,.16)}
-.accion{display:flex;align-items:center;gap:16px;min-height:60px;padding:0 4px;border:0;border-bottom:1px solid rgba(243,236,221,.16);background:none;color:var(--crema);text-decoration:none;font:inherit;font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-align:left;cursor:pointer;transition:color var(--dur-micro),background var(--dur-micro)}
-.accion svg{width:20px;height:20px;flex:none;fill:none;stroke:var(--oro-claro);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round}
-.accion__label{flex:1}
-.accion .accion__flecha{width:18px;height:18px;stroke:currentColor;opacity:.45;transition:transform var(--dur-ui) var(--ease-salida),opacity var(--dur-micro)}
-.accion:hover,.accion:focus-visible{color:var(--oro-claro);background:rgba(224,189,124,.06)}
-.accion:hover .accion__flecha,.accion:focus-visible .accion__flecha{transform:translateX(5px);opacity:1}
-.accion.is-ok{color:var(--oro-claro)}
-
-/* Tipos de evento */
-.linea__eventos{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.linea__eventos li{padding:7px 14px;border:1px solid rgba(224,189,124,.35);font-family:var(--serif);font-style:italic;font-size:16px;color:var(--crema-3)}
+/* Fila 2: formulario en una línea */
+.cx__form{margin-top:clamp(32px,4vw,48px);padding-top:clamp(22px,2.6vw,30px);border-top:1px solid rgba(224,189,124,.28)}
+.cx__form-et{font-size:11px;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;font-weight:600;color:var(--oro-claro)}
+.cx__campos{margin-top:14px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr) auto;gap:14px;align-items:end}
+.cxc{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cxc span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:rgba(243,236,221,.6)}
+.cxc input,.cxc select{width:100%;min-height:48px;padding:0 14px;background:rgba(11,10,9,.28);border:1px solid rgba(243,236,221,.22);border-radius:0;color:var(--crema);color-scheme:dark;font-family:var(--sans);font-size:16px;outline:none;transition:border-color var(--dur-micro),background var(--dur-micro)}
+.cxc input::placeholder{color:rgba(243,236,221,.45)}
+.cxc input:focus,.cxc select:focus{border-color:var(--oro-claro);background:rgba(11,10,9,.4)}
+.cxc option{color:var(--tinta)}
+.cx__enviar{min-width:150px}
+.cx__pie{margin-top:12px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px;font-size:13px;color:rgba(243,236,221,.6)}
+.cx__err{color:var(--oro-claro);font-weight:600}
+.cx__err:empty{display:none}
+.cx__link{background:none;border:0;padding:0;font:inherit;color:var(--oro-claro);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.cx__link:hover{color:var(--crema)}
 
 /* Redes */
-.contacto .social{margin-top:auto;padding-top:28px;display:flex;flex-wrap:wrap;gap:10px 26px;font-size:11px;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase}
-.contacto .social a{text-decoration:none;color:var(--crema-2);padding:8px 0;transition:color var(--dur-micro)}
-.contacto .social a:hover{color:var(--oro-claro)}
+.cx__social{margin-top:clamp(28px,3.5vw,40px);display:flex;flex-wrap:wrap;gap:6px 26px;font-size:11px;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase}
+.cx__social a{text-decoration:none;color:rgba(243,236,221,.6);padding:8px 0;transition:color var(--dur-micro)}
+.cx__social a:hover{color:var(--oro-claro)}
 
-/* ── Invitación (formulario en papel crema) ────────────────────── */
-.invitacion{position:relative;display:flex;flex-direction:column;gap:22px;padding:clamp(30px,3.8vw,52px);background:var(--papel);color:var(--tinta);
-  border:1px solid rgba(201,161,90,.7);outline:1px solid var(--papel-filete);outline-offset:-10px;box-shadow:0 30px 60px -20px rgba(0,0,0,.55)}
-.invitacion__head{text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:6px}
-.invitacion__orn{color:var(--oro-profundo);font-size:14px;letter-spacing:.6em}
-.invitacion__et{font-size:11px;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;font-weight:600;color:var(--vino-texto)}
-.invitacion__titulo{margin:0;font-family:var(--serif);font-weight:600;font-size:clamp(30px,3vw,40px);line-height:1.05;color:var(--tinta);text-wrap:balance}
-
-.campo{display:flex;flex-direction:column;gap:6px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--vino-texto)}
-.campo input,.campo select,.campo textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(26,22,19,.28);border-radius:0;color:var(--tinta);color-scheme:light;font-family:var(--sans);font-size:17px;letter-spacing:0;text-transform:none;font-weight:400;line-height:1.5;padding:10px 0;outline:none;resize:vertical;transition:border-color var(--dur-micro)}
-.campo input::placeholder,.campo textarea::placeholder{color:rgba(90,79,69,.7)}
-.campo input:focus,.campo select:focus,.campo textarea:focus{border-bottom-color:var(--vino)}
-.campo select{cursor:pointer}
-.invitacion__fila{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
-.invitacion__err{min-height:20px;margin:-8px 0 -6px;font-size:14px;color:var(--vino-texto);font-weight:600}
-
-.invitacion__btns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
-.ibtn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 16px;font:inherit;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:1px solid var(--vino);transition:background var(--dur-micro),color var(--dur-micro),border-color var(--dur-micro)}
-.ibtn svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
-.ibtn--vino{background:var(--vino);color:var(--crema)}
-.ibtn--vino:hover{background:var(--tinta);border-color:var(--tinta)}
-.ibtn--linea{background:transparent;color:var(--vino-texto)}
-.ibtn--linea:hover{background:var(--vino);color:var(--crema)}
-.invitacion :focus-visible{outline:1px solid var(--vino);outline-offset:3px}
-.invitacion__nota{margin:-4px 0 0;text-align:center;font-size:13px;line-height:1.5;color:var(--gris)}
-
-/* ── Responsive ────────────────────────────────────────────────── */
+/* Responsive */
 @media (max-width:960px){
-  .contacto__grid{grid-template-columns:minmax(0,1fr)}
+  .cx{grid-template-columns:minmax(0,1fr);align-items:start}
+  .cx__linea{align-items:flex-start;text-align:left}
+  .cx__tel{margin:0 0 -.12em -.06em}
+  .cx__campos{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .cx__campos .cxc:first-child{grid-column:1 / -1}
+  .cx__enviar{grid-column:1 / -1}
 }
 @media (max-width:767px){
-  .contacto__head p{font-size:16px}
-  .linea{padding:24px 20px}
-  .linea__tel{font-size:clamp(42px,13vw,56px)}
-  .invitacion{padding:28px 20px;outline-offset:-6px}
-  .invitacion__fila,.invitacion__btns{grid-template-columns:minmax(0,1fr)}
-  .campo input,.campo select,.campo textarea{font-size:16px}
+  .cx__tipos{font-size:17px}
+  .cx__tel{font-size:clamp(44px,13vw,56px)}
+  .cx__acciones{width:100%;gap:8px}
+  .cx__acciones .cxb{flex:1 1 0;padding:0 10px;letter-spacing:.08em}
+  /* Copiar: cuadrado de solo icono (el nombre accesible viene del aria-label) */
+  .cx__acciones .cxb--icono{flex:0 0 48px;width:48px;padding:0}
+  .cx__acciones .cxb--icono .accion__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .cx__pie{flex-direction:column}
 }
 @media (prefers-reduced-motion:reduce){
-  .accion,.accion .accion__flecha,.ibtn,.linea__mail{transition:none}
+  .cxb,.cxc input,.cxc select,.cx__mail,.cx__social a{transition:none}
 }

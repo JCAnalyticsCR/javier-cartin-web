@@ -129,56 +129,43 @@
 </section>
 
 <section class="contacto" id="contacto" aria-labelledby="contactoTitulo">
-  <header class="contacto__head reveal">
-    <div class="eyebrow eyebrow--light">Contrataciones</div>
-    <h2 id="contactoTitulo">Lleve la voz de Javier a su evento</h2>
-    <p>Conciertos, serenatas, eventos privados y de empresa. Escríbale directamente o solicite una fecha y le responderá personalmente.</p>
-  </header>
-
-  <div class="contacto__grid">
-    <aside class="linea reveal" data-delay="100" aria-label="Línea directa">
-      <div class="linea__et">Línea directa</div>
-      <a class="linea__tel oro-metal" href="tel:+50687487167" aria-label="Llamar al 8748 7167">8748 7167</a>
-      <a class="linea__mail" href="mailto:javier.cartin@gmail.com">javier.cartin@gmail.com</a>
-
-      <div class="acciones">
-        <a class="accion" href="tel:+50687487167"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h3l1.5 4-2 1.3a11 11 0 0 0 5.1 5.1l1.3-2 4 1.5v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 4.6 5.5a2 2 0 0 1 2-2z"/></svg><span class="accion__label">Llamar</span><svg class="accion__flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a class="accion" href="https://wa.me/50687487167" target="_blank" rel="noopener" data-whatsapp><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l1.1-3.9A8 8 0 1 1 8.6 18.4z"/><path d="M9.2 8.6c.3 2.6 2.6 4.9 5.2 5.2l1-1.2-1.6-.9-.7.7a4 4 0 0 1-2.5-2.5l.7-.7-.9-1.6z"/></svg><span class="accion__label">Escribir por WhatsApp</span><svg class="accion__flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <button class="accion" type="button" id="copyBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11"/><path d="M15.5 8.5v-4h-11v11h4"/></svg><span class="accion__label">Copiar número</span><svg class="accion__flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  <div class="cx reveal">
+    <div class="cx__intro">
+      <div class="eyebrow eyebrow--light">Contrataciones</div>
+      <h2 id="contactoTitulo">Reserve a Javier para su evento</h2>
+      <p class="cx__tipos">Conciertos · Serenatas · Eventos privados · Empresas</p>
+    </div>
+    <div class="cx__linea">
+      <a class="cx__tel oro-metal" href="tel:+50687487167" aria-label="Llamar al 8748 7167">8748 7167</a>
+      <a class="cx__mail" href="mailto:javier.cartin@gmail.com">javier.cartin@gmail.com</a>
+      <div class="cx__acciones">
+        <a class="cxb cxb--oro" href="https://wa.me/50687487167" target="_blank" rel="noopener" data-whatsapp><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l1.1-3.9A8 8 0 1 1 8.6 18.4z"/><path d="M9.2 8.6c.3 2.6 2.6 4.9 5.2 5.2l1-1.2-1.6-.9-.7.7a4 4 0 0 1-2.5-2.5l.7-.7-.9-1.6z"/></svg>WhatsApp</a>
+        <a class="cxb" href="tel:+50687487167"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h3l1.5 4-2 1.3a11 11 0 0 0 5.1 5.1l1.3-2 4 1.5v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 4.6 5.5a2 2 0 0 1 2-2z"/></svg>Llamar</a>
+        <button class="cxb cxb--icono" type="button" id="copyBtn" aria-label="Copiar número"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="8.5" width="11" height="11"/><path d="M15.5 8.5v-4h-11v11h4"/></svg><span class="accion__label">Copiar</span></button>
       </div>
-
-      <ul class="linea__eventos" aria-label="Tipos de evento">
-        <li>Conciertos</li><li>Serenatas</li><li>Eventos privados</li><li>Eventos de empresa</li>
-      </ul>
-
-      <nav class="social" aria-label="Redes de Javier Cartín">
-        <a href="https://www.facebook.com/javiercartinoficial" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://www.instagram.com/javiercartin/" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.youtube.com/@javiercartin5575" target="_blank" rel="noopener">YouTube</a>
-        <a href="https://music.apple.com/cr/artist/javier-cartin/1521664752" target="_blank" rel="noopener">Apple Music</a>
-      </nav>
-    </aside>
-
-    <form class="invitacion reveal" data-delay="200" id="form" novalidate aria-labelledby="formTitulo">
-      <div class="invitacion__head">
-        <span class="invitacion__orn" aria-hidden="true">✦</span>
-        <div class="invitacion__et">Solicitud de fecha</div>
-        <h3 class="invitacion__titulo" id="formTitulo">Reserve una noche con Javier</h3>
-      </div>
-      <label class="campo">Nombre<input name="nombre" placeholder="Su nombre completo" autocomplete="name"></label>
-      <div class="invitacion__fila">
-        <label class="campo">Tipo de evento<select name="tipo"><option>Concierto</option><option>Serenata</option><option>Evento privado</option><option>Evento de empresa</option><option>Otro</option></select></label>
-        <label class="campo">Fecha<input type="date" name="fecha"></label>
-      </div>
-      <label class="campo">Mensaje<textarea name="mensaje" rows="3" placeholder="Lugar, horario y detalles del evento"></textarea></label>
-      <div class="invitacion__err" id="formErr" role="alert"></div>
-      <div class="invitacion__btns">
-        <button type="button" class="ibtn ibtn--vino" id="sendWa" data-whatsapp><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l1.1-3.9A8 8 0 1 1 8.6 18.4z"/><path d="M9.2 8.6c.3 2.6 2.6 4.9 5.2 5.2l1-1.2-1.6-.9-.7.7a4 4 0 0 1-2.5-2.5l.7-.7-.9-1.6z"/></svg>Enviar por WhatsApp</button>
-        <button type="button" class="ibtn ibtn--linea" id="sendMail"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg>Enviar por correo</button>
-      </div>
-      <p class="invitacion__nota">Su solicitud se abre en WhatsApp o en su correo, lista para enviar. Este sitio no guarda sus datos.</p>
-    </form>
+    </div>
   </div>
+
+  <form class="cx__form reveal" data-delay="120" id="form" novalidate aria-label="Solicitar una fecha">
+    <div class="cx__form-et">Solicite una fecha</div>
+    <div class="cx__campos">
+      <label class="cxc"><span>Nombre</span><input name="nombre" placeholder="Su nombre" autocomplete="name"></label>
+      <label class="cxc"><span>Evento</span><select name="tipo"><option>Concierto</option><option>Serenata</option><option>Evento privado</option><option>Evento de empresa</option><option>Otro</option></select></label>
+      <label class="cxc"><span>Fecha</span><input type="date" name="fecha"></label>
+      <button type="button" class="cxb cxb--oro cx__enviar" id="sendWa" data-whatsapp><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5l1.1-3.9A8 8 0 1 1 8.6 18.4z"/><path d="M9.2 8.6c.3 2.6 2.6 4.9 5.2 5.2l1-1.2-1.6-.9-.7.7a4 4 0 0 1-2.5-2.5l.7-.7-.9-1.6z"/></svg>Solicitar</button>
+    </div>
+    <div class="cx__pie">
+      <span class="cx__err" id="formErr" role="alert"></span>
+      <span class="cx__nota">Se abre en WhatsApp, lista para enviar. ¿Prefiere correo? <button type="button" class="cx__link" id="sendMail">Enviar por correo</button></span>
+    </div>
+  </form>
+
+  <nav class="cx__social" aria-label="Redes de Javier Cartín">
+    <a href="https://www.facebook.com/javiercartinoficial" target="_blank" rel="noopener">Facebook</a>
+    <a href="https://www.instagram.com/javiercartin/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.youtube.com/@javiercartin5575" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://music.apple.com/cr/artist/javier-cartin/1521664752" target="_blank" rel="noopener">Apple Music</a>
+  </nav>
 </section>
 </main>
 

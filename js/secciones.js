@@ -131,6 +131,7 @@
   if (copyBtn) {
     copyBtn.addEventListener('click', function () {
       var b = this, label = b.querySelector('.accion__label') || b;
+      if (!label.dataset.txt) label.dataset.txt = label.textContent;
       var num = C.telefono.replace(/\s/g, '');
       function respaldo() {           // sin permiso de portapapeles: copia con un campo temporal
         var t = document.createElement('textarea');
@@ -143,9 +144,9 @@
         if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(num).catch(respaldo);
         else respaldo();
       } catch (e) { respaldo(); }
-      label.textContent = 'Número copiado';
+      label.textContent = 'Copiado';
       b.classList.add('is-ok');
-      setTimeout(function () { label.textContent = 'Copiar número'; b.classList.remove('is-ok'); }, 2000);
+      setTimeout(function () { label.textContent = label.dataset.txt || 'Copiar número'; b.classList.remove('is-ok'); }, 2000);
     });
   }
 
@@ -156,7 +157,7 @@
 
   function buildMessage() {
     var f = form.elements;
-    var m = f.mensaje.value.trim();
+    var m = f.mensaje ? f.mensaje.value.trim() : '';
     return 'Hola Javier, soy ' + f.nombre.value.trim() +
       '. Quisiera información para una contratación.\n' +
       'Tipo de evento: ' + f.tipo.value + '\n' +
