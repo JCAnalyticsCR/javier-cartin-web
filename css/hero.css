@@ -558,3 +558,17 @@ blockquote.fading {
   .historia__bio p { margin-bottom: 14px; }
   .historia__bio p:last-child { margin-bottom: 0; }
 }
+
+/* Hero móvil: la etiqueta cae sobre la camisa clara del retrato → dorado claro + sombra,
+   y el degradado oscurece antes, justo donde arranca el texto */
+@media (max-width:767px) {
+  .hero .eyebrow {
+    color: var(--oro-claro);
+    text-shadow: 0 1px 2px rgba(0,0,0,.95), 0 0 12px rgba(0,0,0,.9), 0 0 24px rgba(0,0,0,.7);
+  }
+  .hero__scrim {
+    background: linear-gradient(to bottom,
+      rgba(11,10,9,.6) 0, rgba(11,10,9,0) 16%, rgba(11,10,9,0) 40%,
+      rgba(11,10,9,.82) calc(var(--foto-h) - 160px), rgba(11,10,9,.94) calc(var(--foto-h) - 80px), var(--negro-2) var(--foto-h));
+  }
+}
