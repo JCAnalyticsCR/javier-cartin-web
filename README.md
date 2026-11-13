@@ -31,7 +31,7 @@ javier-cartin-web/
 4. **Su historia** (`#historia`, fondo crema): frase rotativa (cambia cada 7s, con puntos para elegir) + bio en 3 párrafos.
 5. **Trayectoria** (`#trayectoria`): riel de 12 hitos con línea de progreso; panel con año grande, etapa y descripción; flechas anterior/siguiente, contador y teclas ← →. Cambio con fundido de 180ms.
 6. **Videos** (`#videos`, fondo crema): reproductor 16:9 con miniatura; al hacer clic carga el iframe de YouTube (youtube-nocookie, autoplay). Lista de 6 videos: elegir uno lo carga y reproduce. Enlace "Abrir en YouTube".
-7. **Galería** (`#galeria`): grilla `auto-fit minmax(220px,1fr)`, proporción 4:5. Casillas pendientes hasta tener fotos originales.
+7. **Galería** (`#galeria`): 11 fotos de shows y público en casillas 4:3 (3 columnas en escritorio, 1 en móvil). Se ven 3 y el botón "Ver toda la galería" despliega el resto. Contenido en `galeria` y `galeriaVisibles` de `data.js`.
 8. **Contacto** (`#contacto`, fondo vino): teléfono gigante (`tel:`), correo, botones Llamar / WhatsApp / Copiar número, redes. Formulario "Solicite una fecha" (nombre, tipo de evento, fecha, mensaje) que arma un mensaje y lo abre en WhatsApp (`wa.me`) o en el correo (`mailto:`). Validación: nombre obligatorio. No hay backend.
 9. **Footer**: tricolor discreto, nombre, lugar, "Volver arriba".
 
@@ -63,7 +63,7 @@ Movimiento
 ## Pendientes antes de publicar
 
 - Confirmar con Javier el teléfono, si ese número tiene WhatsApp (`contacto.whatsapp` en `data.js`) y que el correo sea el de contrataciones.
-- Galería: 6 fotos provisionales (assets/galeria/, WebP de 435–576 px) tomadas de la página oficial de Facebook y de videos de YouTube. Antes de la versión final: permiso de uso de Teletón, Más Q' Entretenimiento (AuténTicos), Sábado Feliz y Museo de Cultura Popular UNA, y visto bueno de Javier para la carátula de La Pandylla. Ideal: pedir originales en alta (sesión de ON Contenido y fotos de Peggy Tam).
+- Galería: 11 fotos (assets/galeria/, WebP 960×720) de la página oficial de Facebook y de videos de YouTube, con su crédito en el pie de cada foto. Permisos de uso de terceros confirmados (13/11/2026). Mejora opcional: originales en alta (sesión de ON Contenido y fotos de Peggy Tam) para sumar ampliación a pantalla completa.
 - Contenido: solo hechos con fuente. Ninguna canción del sitio es de su autoría; no afirmar fechas de La Banda ni el año en que entró a La Pandylla.
 - No presentarlo como compositor de "De mañana en adelante" (la canción es de Alejandro Jaén). No mencionar premios.
 - Optimizar el retrato (WebP + tamaños) y añadir favicon y `og:image` con URL absoluta.

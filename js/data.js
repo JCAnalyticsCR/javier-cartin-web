@@ -48,7 +48,7 @@ window.SITE = {
   // Galería: fotos de shows en plano abierto (escenario, orquesta, luces), no solo primeros planos.
   // Fuentes y verificación: investigacion/ (fuera del repo). Pies sin años ni lugares sin fuente.
   // galeriaVisibles: cuántas se ven antes de "Ver toda la galería". archivo: true = sepia + grano.
-  // PENDIENTE antes de la versión final: permiso de uso de cada crédito de terceros.
+  // Permisos de uso de terceros confirmados (13/11/2026). Cada foto lleva su crédito.
   galeriaVisibles: 3,
   galeria: [
     { src: 'assets/galeria/01-autenticos-orquesta.webp', w: 960, h: 720, alt: 'Javier Cartín canta en la tarima junto al director y la orquesta sinfónica, bajo luces verdes', pie: 'AuténTicos por siempre, Estadio Nacional, 2016.', credito: 'Más Q’ Entretenimiento' },
