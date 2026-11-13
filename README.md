@@ -63,7 +63,8 @@ Movimiento
 ## Pendientes antes de publicar
 
 - Confirmar con Javier el teléfono, si ese número tiene WhatsApp (`contacto.whatsapp` en `data.js`) y que el correo sea el de contrataciones.
-- Fotos originales para la galería (`galeria[].src` en `data.js`, guardar en `assets/galeria/`). Las fotos de prensa necesitan permiso.
+- Galería: 6 fotos provisionales (assets/galeria/, WebP de 435–576 px) tomadas de la página oficial de Facebook y de videos de YouTube. Antes de la versión final: permiso de uso de Teletón, Más Q' Entretenimiento (AuténTicos), Sábado Feliz y Museo de Cultura Popular UNA, y visto bueno de Javier para la carátula de La Pandylla. Ideal: pedir originales en alta (sesión de ON Contenido y fotos de Peggy Tam).
+- Contenido: solo hechos con fuente. Ninguna canción del sitio es de su autoría; no afirmar fechas de La Banda ni el año en que entró a La Pandylla.
 - No presentarlo como compositor de "De mañana en adelante" (la canción es de Alejandro Jaén). No mencionar premios.
 - Optimizar el retrato (WebP + tamaños) y añadir favicon y `og:image` con URL absoluta.
 - Los videos de La Pandylla están en canales de terceros y podrían dejar de estar disponibles; los del canal oficial son los primeros de la lista.

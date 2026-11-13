@@ -76,9 +76,12 @@
   $('gallery').innerHTML = S.galeria.map(function (g) {
     if (g.src) {
       // Foto real: marco dorado + figcaption en hover
-      return '<figure class="has-img">' +
-        '<img src="' + esc(g.src) + '" alt="' + esc(g.alt) + '" loading="lazy">' +
-        '<figcaption>' + esc(g.alt) + '</figcaption>' +
+      return '<figure class="has-img' + (g.archivo ? ' is-archivo' : '') + '">' +
+        '<img src="' + esc(g.src) + '" alt="' + esc(g.alt) + '"' +
+          (g.w ? ' width="' + g.w + '" height="' + g.h + '"' : '') + ' loading="lazy" decoding="async">' +
+        '<figcaption><span class="gallery__pie">' + esc(g.pie || g.alt) + '</span>' +
+          (g.credito ? '<small class="gallery__credito">' + esc(g.credito) + '</small>' : '') +
+        '</figcaption>' +
         '</figure>';
     }
     // Placa elegante mientras no hay foto

@@ -44,11 +44,15 @@ window.SITE = {
     { id: 'i5y0mRQfbVU', titulo: 'Amor perdido', detalle: 'La Pandylla · videoclip' },
     { id: '52tZShfG4R0', titulo: 'De mañana en adelante', detalle: 'La Pandylla · original de 1986' }
   ],
-  // src vacío = casilla pendiente. Guardar las fotos en assets/galeria/ y poner la ruta en src.
+  // Galería: selección final del debate (investigacion/debate/seleccion_final.md, fuera del repo).
+  // Pies de foto sin años ni lugares que no tengan fuente. archivo: true = tratamiento de archivo (sepia + grano).
+  // PENDIENTE antes de la versión final: permiso de uso de cada crédito de terceros.
   galeria: [
-    { src: '', alt: 'En el escenario hoy' },
-    { src: '', alt: 'La Pandylla, años 80' },
-    { src: '', alt: 'La Selección, años 90' },
-    { src: '', alt: 'Foto de archivo' }
+    { src: 'assets/galeria/01-pandylla-archivo.webp', w: 435, h: 544, archivo: true, alt: 'Portada del sencillo de La Pandylla con el logo de Coca-Cola, una foto en blanco y negro del grupo y los títulos El Criticón y Es tiempo para amar', pie: 'La Pandylla, años 80. Archivo.', credito: 'Arte del sencillo · vía página oficial' },
+    { src: 'assets/galeria/02-teleton-2003.webp', w: 576, h: 720, archivo: true, alt: 'Javier Cartín canta con los ojos cerrados y el micrófono junto a los labios, sobre un fondo violeta', pie: 'Teletón, 2003.', credito: 'Teletón Costa Rica' },
+    { src: 'assets/galeria/03-concierto-orquesta.webp', w: 541, h: 676, alt: 'Javier Cartín, de traje azul brillante, canta con la mano en alto frente a una orquesta de vientos', pie: 'En concierto, con orquesta.', credito: 'Página oficial de Javier Cartín' },
+    { src: 'assets/galeria/04-autenticos-2016.webp', w: 576, h: 720, alt: 'Javier Cartín canta con el puño en alto bajo luz verde, con músicos de cuerda de una orquesta sinfónica detrás', pie: 'AuténTicos por siempre, Estadio Nacional, 2016.', credito: 'Más Q’ Entretenimiento' },
+    { src: 'assets/galeria/05-sabado-feliz.webp', w: 576, h: 720, alt: 'Primer plano de Javier Cartín cantando con el micrófono en la mano y los ojos entrecerrados, con luces naranjas de escenario', pie: 'En vivo en Sábado Feliz.', credito: 'Sábado Feliz' },
+    { src: 'assets/galeria/06-museo-dialoga-2026.webp', w: 576, h: 720, alt: 'Javier Cartín ríe sentado en una banca de madera al aire libre, con suéter gris y camisa celeste, frente a un jardín', pie: 'Entre canciones e historias, 2026.', credito: 'Museo de Cultura Popular, UNA' }
   ]
 };
