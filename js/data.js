@@ -1,9 +1,9 @@
 // Todo el contenido editable del sitio vive aquí.
 window.SITE = {
   contacto: {
-    telefono: '8748 7167',
-    telefonoE164: '50687487167',
-    correo: 'javier.cartin@gmail.com',
+    telefono: '8333 2222',
+    telefonoE164: '50683332222',
+    correo: 'jc@javiercartin.com',
     whatsapp: true // poner en false si el número no tiene WhatsApp (pendiente de confirmar con Javier)
   },
   canciones: ['De mañana en adelante', 'Una niña, una historia', 'Amor perdido', 'Yo no sé qué me pasó', 'Cada día que pasa', 'Juro por mi vida'],
