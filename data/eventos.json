@@ -7,6 +7,13 @@
       "descripcion": "Miércoles 18 de noviembre, 7:00 p. m.\nEntrada: un regalo para niños de 1 a 17 años, o donación mínima de ¢6.500 por persona.\nReservas al 7025-5826.",
       "enlace": "https://wa.me/50670255826",
       "video": "/assets/eventos/concierto-benefico.mp4"
+    },
+    {
+      "titulo": "Concierto: Un país que canta, una orquesta que nos une",
+      "fecha": "2026-11-22",
+      "lugar": "Teatro Popular Melico Salazar",
+      "descripcion": "Domingo 22 de noviembre, 5:00 p. m.\nEntrada gratuita.\nCon la Orquesta Sinfónica Regional de Cartago y artistas invitados: Anayanci Quirós, Fulvio Villalobos, Javier Cartín, María Marta López, y Fernando Castro con Vía Libre.",
+      "imagen": "/assets/eventos/concierto-un-pais-que-canta.webp"
     }
   ]
 }
