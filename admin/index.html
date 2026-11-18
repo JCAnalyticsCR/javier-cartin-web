@@ -4,9 +4,40 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>Administrar eventos · Javier Cartín</title>
+  <meta name="theme-color" content="#0b0a09">
+  <link rel="icon" href="../assets/icons/icon-32.png" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/icons/icon-180.png">
+  <title>Mis eventos · Javier Cartín</title>
+  <style>
+    /* Letra más grande en el panel para que se lea cómodo en el celular */
+    body { font-size: 17px; }
+  </style>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@3.18.0/dist/decap-cms.js"></script>
+  <script>
+    // Hace el panel más simple para Javier:
+    // 1) abre directo el formulario de eventos (sin buscar en menús);
+    // 2) el botón de entrada dice "Entrar" (él no usa GitHub, la contraseña la pide la ventana siguiente).
+    (function () {
+      if (!location.hash || location.hash === '#/') location.hash = '#/collections/agenda/entries/eventos';
+      var reemplazos = [
+        [/Iniciar sesión con GitHub|Login with GitHub|Logging in with GitHub…?|Iniciando sesión con GitHub…?/i, 'Entrar']
+      ];
+      function cambiar(raiz) {
+        var w = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT), n;
+        while ((n = w.nextNode())) {
+          reemplazos.forEach(function (r) {
+            if (r[0].test(n.nodeValue) && n.nodeValue !== r[1]) {
+              n.nodeValue = n.nodeValue.replace(r[0], r[1]);
+              var b = n.parentNode && n.parentNode.closest && n.parentNode.closest('button');
+              if (b) Array.prototype.forEach.call(b.querySelectorAll('svg'), function (v) { v.style.display = 'none'; });   // sin logo de GitHub
+            }
+          });
+        }
+      }
+      new MutationObserver(function () { cambiar(document.body); }).observe(document.body, { childList: true, subtree: true, characterData: true });
+    })();
+  </script>
 </body>
 </html>
