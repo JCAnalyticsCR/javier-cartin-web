@@ -4,4 +4,4 @@ compatibility_date = "2026-01-01"
 
 [vars]
 ALLOWED_ORIGIN = "https://javiercartin.com"
-# GITHUB_CLIENT_ID y GITHUB_CLIENT_SECRET se cargan con: npx wrangler secret put <NOMBRE>
+# Secretos (se cargan con: npx wrangler secret put <NOMBRE>): GITHUB_TOKEN y ADMIN_PASSWORD
