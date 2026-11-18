@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="css/trayectoria.css">
 <link rel="stylesheet" href="css/secciones.css">
 <link rel="stylesheet" href="css/contacto.css">
+<link rel="stylesheet" href="css/eventos.css">
 </head>
 <body>
 <div class="progress" id="progress"></div>
@@ -33,7 +34,7 @@
     <span class="nav__logo-name">Javier Cartín</span>
   </a>
   <nav class="nav__links">
-    <a href="#historia">Historia</a><a href="#trayectoria">Trayectoria</a><a href="#videos">Videos</a><a href="#galeria">Galería</a>
+    <a href="#eventos" id="navEventos" hidden>Eventos</a><a href="#historia">Historia</a><a href="#trayectoria">Trayectoria</a><a href="#videos">Videos</a><a href="#galeria">Galería</a>
     <a class="nav__cta" href="#contacto">Contrataciones</a>
   </nav>
 </header>
@@ -75,6 +76,14 @@
     <p>En los noventa siguió poniendo a bailar al país con La Selección y la Orquesta de Gene Chambers. Ya como solista grabó <em>Siempre romántico</em>, con temas como “Una niña, una historia” y “Cada día que pasa”, y <em>Las cosas que nos pasan</em>, junto a su hijo Xavier. Ha llevado su voz al Estadio Nacional con los AuténTicos, a “Represento” de CR Music All Stars, a la gala de <em>Nace una Estrella</em> y a “Petición por Costa Rica”.</p>
     <p>Hoy sigue cantando con la misma entrega, y en 2026 estrenó “El Pescador de Estrellas”, porque, como él dice, “si volviera a nacer, escogería ser cantante”. Gracias, Javier, por ponerle voz a nuestros recuerdos.</p>
   </div>
+</section>
+
+<section class="eventos" id="eventos" aria-labelledby="eventosTitulo" hidden>
+  <header class="eventos__head reveal">
+    <div class="eyebrow">Agenda</div>
+    <h2 id="eventosTitulo">Próximos eventos</h2>
+  </header>
+  <div class="eventos__lista" id="eventosLista"></div>
 </section>
 
 <section class="section" id="trayectoria">
@@ -187,6 +196,7 @@
 <script src="js/hero.js"></script>
 <script src="js/trayectoria.js"></script>
 <script src="js/secciones.js"></script>
+<script src="js/eventos.js"></script>
 <script src="js/base.js"></script>
 </body>
 </html>

@@ -1,0 +1,45 @@
+# Panel para que Javier publique sus próximos eventos (Decap CMS).
+# Guarda los cambios en este mismo repositorio; no hay servidor ni base de datos.
+backend:
+  name: github
+  repo: JCAnalyticsCR/javier-cartin-web
+  branch: main
+  # Servicio gratuito de inicio de sesión (Cloudflare Worker). Se completa al desplegarlo:
+  base_url: https://REEMPLAZAR-auth.workers.dev
+  commit_messages:
+    create: "eventos: agregar {{slug}}"
+    update: "eventos: actualizar {{slug}}"
+    delete: "eventos: borrar {{slug}}"
+    uploadMedia: "eventos: subir imagen {{path}}"
+    deleteMedia: "eventos: borrar imagen {{path}}"
+
+locale: es
+publish_mode: simple
+media_folder: assets/eventos
+public_folder: /assets/eventos
+site_url: https://javiercartin.com
+display_url: https://javiercartin.com
+logo_url: https://javiercartin.com/assets/icons/icon-192.png
+
+collections:
+  - name: agenda
+    label: Próximos eventos
+    files:
+      - name: eventos
+        label: Mis próximos eventos
+        file: data/eventos.json
+        description: "Agregue un evento con el botón 'Agregar evento'. Los eventos que ya pasaron se ocultan solos de la página. Al terminar, toque 'Publicar'."
+        fields:
+          - label: Eventos
+            label_singular: evento
+            name: eventos
+            widget: list
+            summary: "{{fields.fecha}} · {{fields.titulo}}"
+            add_to_top: true
+            fields:
+              - { label: Título del evento, name: titulo, widget: string, hint: "Ejemplo: Serenata del Día de la Madre" }
+              - { label: Fecha, name: fecha, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", picker_utc: false }
+              - { label: Lugar, name: lugar, widget: string, required: false, hint: "Ejemplo: Teatro Nacional, San José" }
+              - { label: Texto o descripción, name: descripcion, widget: text, required: false, hint: "Hora, precio, quién invita... lo que quiera contar." }
+              - { label: Afiche o foto, name: imagen, widget: image, required: false, hint: "Toque para subir una foto desde su teléfono o computadora.", media_library: { config: { multiple: false } } }
+              - { label: Enlace para más información o entradas, name: enlace, widget: string, required: false, hint: "Opcional. Debe empezar con https://" }

@@ -1,0 +1,32 @@
+/* PRÓXIMOS EVENTOS. Se muestra solo si data/eventos.json tiene eventos de hoy en adelante. */
+.eventos{padding:var(--sec) var(--pad);background:linear-gradient(180deg,var(--negro-2),var(--carbon));border-top:1px solid var(--filete)}
+.eventos[hidden]{display:none}
+.eventos__head h2{margin:12px 0 0}
+.eventos__lista{margin-top:clamp(28px,4vw,44px);align-items:start;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(18px,2.4vw,28px)}
+.evento{display:flex;flex-direction:column;background:rgba(243,236,221,.03);border:1px solid var(--filete);transition:border-color var(--dur-ui) var(--ease-salida),transform var(--dur-ui) var(--ease-salida)}
+.evento:hover{border-color:var(--filete-fuerte);transform:translateY(-3px)}
+.evento__img{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--carbon)}
+.evento__img img{width:100%;height:100%;object-fit:cover;display:block}
+.evento__img--sin{aspect-ratio:16/7;background:radial-gradient(ellipse 70% 100% at 80% 0%,rgba(201,161,90,.16),transparent 70%),var(--carbon)}
+.evento__fecha{position:absolute;left:14px;top:14px;display:flex;flex-direction:column;align-items:center;min-width:62px;padding:8px 10px;background:rgba(11,10,9,.88);border:1px solid var(--filete-fuerte);text-align:center;line-height:1}
+.evento__dia{font-family:var(--serif);font-weight:600;font-size:32px;color:var(--oro-claro)}
+.evento__mes{margin-top:4px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--crema-2)}
+.evento__cuerpo{padding:clamp(18px,2vw,26px);display:flex;flex-direction:column;gap:8px;flex:1}
+.evento__cuando{font-size:11px;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;font-weight:600;color:var(--oro)}
+.evento__titulo{margin:0;font-family:var(--serif);font-weight:600;font-size:clamp(26px,2.6vw,34px);line-height:1.08;color:var(--crema);text-wrap:balance}
+.evento__lugar{margin:0;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--crema-2)}
+.evento__desc{margin:4px 0 0;font-size:16px;line-height:1.6;color:rgba(243,236,221,.78);text-wrap:pretty}
+.evento__btn{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border:1px solid var(--oro);color:var(--oro);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:background var(--dur-micro),color var(--dur-micro)}
+.evento__desc+.evento__btn,.evento__lugar+.evento__btn,.evento__titulo+.evento__btn{margin-top:14px}
+.evento__btn:hover{background:var(--oro);color:var(--negro)}
+.evento__btn:focus-visible{outline:1px solid var(--oro-claro);outline-offset:3px}
+/* Un solo evento: afiche a la izquierda y texto a la derecha */
+@media (min-width:768px){
+  .eventos__lista--uno{grid-template-columns:minmax(0,1fr)}
+  .eventos__lista--uno .evento{flex-direction:row;max-width:920px}
+  .eventos__lista--uno .evento__img{flex:0 0 min(40%,340px);aspect-ratio:4/5}
+  .eventos__lista--uno .evento__img--sin{flex:0 0 min(34%,280px);aspect-ratio:auto}
+  .eventos__lista--uno .evento__cuerpo{justify-content:center;padding:clamp(24px,3vw,44px)}
+}
+@media (max-width:767px){ .eventos{padding-top:44px;padding-bottom:48px} }
+@media (prefers-reduced-motion:reduce){ .evento,.evento__btn{transition:none} .evento:hover{transform:none} }
