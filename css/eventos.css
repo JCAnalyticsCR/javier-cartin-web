@@ -1,37 +1,57 @@
-/* PRÓXIMOS EVENTOS. Se muestra solo si data/eventos.json tiene eventos de hoy en adelante. */
-.eventos{padding:var(--sec) var(--pad);background:linear-gradient(180deg,var(--negro-2),var(--carbon));border-top:1px solid var(--filete)}
+/* PRÓXIMOS EVENTOS — tarjetas compactas. Se muestra solo si data/eventos.json tiene eventos de hoy en adelante. */
+.eventos{padding:clamp(56px,6vw,88px) var(--pad);background:linear-gradient(180deg,var(--negro-2),var(--carbon));border-top:1px solid var(--filete)}
 .eventos[hidden]{display:none}
 .eventos__head h2{margin:12px 0 0}
-.eventos__lista{margin-top:clamp(28px,4vw,44px);align-items:start;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(18px,2.4vw,28px)}
-.evento{display:flex;flex-direction:column;background:rgba(243,236,221,.03);border:1px solid var(--filete);transition:border-color var(--dur-ui) var(--ease-salida),transform var(--dur-ui) var(--ease-salida)}
-.evento:hover{border-color:var(--filete-fuerte);transform:translateY(-3px)}
-.evento__img{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--carbon)}
-.evento__img img{width:100%;height:100%;object-fit:cover;display:block}
-.evento__img--sin{aspect-ratio:16/7;background:radial-gradient(ellipse 70% 100% at 80% 0%,rgba(201,161,90,.16),transparent 70%),var(--carbon)}
-.evento__fecha{position:absolute;left:14px;top:14px;display:flex;flex-direction:column;align-items:center;min-width:62px;padding:8px 10px;background:rgba(11,10,9,.88);border:1px solid var(--filete-fuerte);text-align:center;line-height:1}
-.evento__dia{font-family:var(--serif);font-weight:600;font-size:32px;color:var(--oro-claro)}
-.evento__mes{margin-top:4px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--crema-2)}
-.evento__cuerpo{padding:clamp(18px,2vw,26px);display:flex;flex-direction:column;gap:8px;flex:1}
-.evento__cuando{font-size:11px;letter-spacing:var(--tracking-etiqueta);text-transform:uppercase;font-weight:600;color:var(--oro)}
-.evento__titulo{margin:0;font-family:var(--serif);font-weight:600;font-size:clamp(26px,2.6vw,34px);line-height:1.08;color:var(--crema);text-wrap:balance}
-.evento__lugar{margin:0;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--crema-2)}
-.evento__desc{margin:4px 0 0;font-size:16px;line-height:1.6;color:rgba(243,236,221,.78);text-wrap:pretty}
-.evento__btn{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border:1px solid var(--oro);color:var(--oro);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:background var(--dur-micro),color var(--dur-micro)}
-.evento__desc+.evento__btn,.evento__lugar+.evento__btn,.evento__titulo+.evento__btn{margin-top:14px}
+.eventos__lista{margin-top:clamp(22px,3vw,34px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:16px;align-items:start}
+.eventos__lista--uno{grid-template-columns:minmax(0,640px)}
+
+/* Tarjeta en fila: miniatura a la izquierda, texto a la derecha */
+.evento{display:flex;gap:clamp(14px,2vw,22px);padding:14px;background:rgba(243,236,221,.03);border:1px solid var(--filete);transition:border-color var(--dur-ui) var(--ease-salida)}
+.evento:hover{border-color:var(--filete-fuerte)}
+.evento__mini{position:relative;align-self:flex-start;flex:0 0 clamp(104px,13vw,136px);aspect-ratio:4/5;padding:0;border:1px solid var(--filete);background:var(--carbon);overflow:hidden;cursor:zoom-in;display:block}
+.evento__mini img,.evento__mini video{width:100%;height:100%;object-fit:cover;display:block;transition:transform var(--dur-seccion) var(--ease-salida)}
+.evento__mini:hover img,.evento__mini:hover video{transform:scale(1.05)}
+.evento__mini:focus-visible{outline:1px solid var(--oro-claro);outline-offset:3px}
+.evento__mini::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(11,10,9,.55),transparent 45%);pointer-events:none}
+.evento__zoom,.evento__play{position:absolute;z-index:1;right:7px;bottom:7px;width:26px;height:26px;fill:none;stroke:var(--crema);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7))}
+.evento__play{left:50%;top:50%;right:auto;bottom:auto;width:44px;height:44px;margin:-22px 0 0 -22px;fill:rgba(11,10,9,.55);stroke:var(--oro-claro)}
+.evento__play path{fill:var(--oro-claro);stroke:none}
+.evento__mini--fecha{cursor:default;display:grid;place-items:center;aspect-ratio:auto;align-self:stretch;flex-basis:84px;min-height:84px;background:radial-gradient(ellipse 80% 100% at 80% 0%,rgba(201,161,90,.16),transparent 70%),var(--carbon)}
+.evento__mini--fecha::after{display:none}
+
+/* Fecha en cuadrito sobre la miniatura (chica) */
+.evento__fecha{position:absolute;z-index:1;left:6px;top:6px;display:flex;flex-direction:column;align-items:center;min-width:38px;padding:4px 6px;background:rgba(11,10,9,.88);border:1px solid var(--filete-fuerte);line-height:1}
+.evento__mini--fecha .evento__fecha{position:static;min-width:60px;padding:8px}
+.evento__dia{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--oro-claro)}
+.evento__mini--fecha .evento__dia{font-size:30px}
+.evento__mes{margin-top:3px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--crema-2)}
+
+.evento__cuerpo{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.evento__cuando{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--oro)}
+.evento__titulo{margin:0;font-family:var(--serif);font-weight:600;font-size:clamp(22px,2.2vw,28px);line-height:1.1;color:var(--crema);text-wrap:balance}
+.evento__lugar{margin:0;font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.25;color:var(--crema-2)}
+.evento__desc{margin:4px 0 0;font-size:14.5px;line-height:1.55;color:rgba(243,236,221,.74);text-wrap:pretty}
+.evento__btn{margin-top:10px;align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--oro);color:var(--oro);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:background var(--dur-micro),color var(--dur-micro)}
 .evento__btn:hover{background:var(--oro);color:var(--negro)}
 .evento__btn:focus-visible{outline:1px solid var(--oro-claro);outline-offset:3px}
-/* Un solo evento: afiche a la izquierda y texto a la derecha */
-@media (min-width:768px){
-  .eventos__lista--uno{grid-template-columns:minmax(0,1fr)}
-  .eventos__lista--uno .evento{flex-direction:row;max-width:920px}
-  .eventos__lista--uno .evento__img{flex:0 0 min(40%,340px);aspect-ratio:4/5}
-  .eventos__lista--uno .evento__img--sin{flex:0 0 min(34%,280px);aspect-ratio:auto}
-  .eventos__lista--uno .evento__cuerpo{justify-content:center;padding:clamp(24px,3vw,44px)}
-}
-@media (max-width:767px){ .eventos{padding-top:44px;padding-bottom:48px} }
-@media (prefers-reduced-motion:reduce){ .evento,.evento__btn{transition:none} .evento:hover{transform:none} }
 
-/* Video dentro de la tarjeta: vertical u horizontal sin recortar, con controles; la fecha no tapa los botones */
-.evento__img--video{background:#000}
-.evento__img video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
-.evento__img--video .evento__fecha{pointer-events:none}
+/* Visor: afiche o video en grande */
+.visor{padding:0;border:1px solid var(--filete-fuerte);background:var(--negro);color:var(--crema);max-width:min(94vw,820px);max-height:94svh;overflow:visible}
+.visor::backdrop{background:rgba(5,4,3,.88)}
+.visor__medio{display:grid;place-items:center}
+.visor__medio img,.visor__medio video{display:block;max-width:100%;max-height:calc(94svh - 56px);object-fit:contain;background:#000}
+.visor__pie{margin:0;padding:12px 16px;font-family:var(--serif);font-size:19px;text-align:center;color:var(--crema-2)}
+.visor__x{position:absolute;right:-8px;top:-18px;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid var(--oro);background:var(--negro);color:var(--oro-claro);font-size:26px;line-height:1;cursor:pointer}
+.visor__x:hover{background:var(--oro);color:var(--negro)}
+.visor-abierto{overflow:hidden}
+
+/* Celular: miniatura un poco más chica y texto ajustado */
+@media (max-width:560px){
+  .evento{padding:12px;gap:12px}
+  .evento__mini{flex-basis:96px}
+  .evento__titulo{font-size:21px}
+  .evento__lugar{font-size:16px}
+  .evento__desc{font-size:14px}
+  .visor__x{right:4px;top:4px}
+}
+@media (prefers-reduced-motion:reduce){ .evento,.evento__btn,.evento__mini img,.evento__mini video{transition:none} }
