@@ -1,3 +1,12 @@
 {
-  "eventos": []
+  "eventos": [
+    {
+      "titulo": "Concierto Benéfico Javier Cartín",
+      "fecha": "2026-11-18",
+      "lugar": "La Máscara Tica Bar & Restaurante, San Pedro",
+      "descripcion": "Miércoles 18 de noviembre, 7:00 p. m.\nEntrada: un regalo para niños de 1 a 17 años, o donación mínima de ¢6.500 por persona.\nReservas al 7025-5826.",
+      "enlace": "https://wa.me/50670255826",
+      "video": "/assets/eventos/concierto-benefico.mp4"
+    }
+  ]
 }
