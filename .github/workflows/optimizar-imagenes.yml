@@ -1,6 +1,6 @@
 name: Optimizar imágenes de eventos
 
-# Cuando Javier sube una foto desde /admin, se reduce sola (máx. 1200 px, calidad 82, sin datos de ubicación)
+# Cuando Javier sube una foto o un video desde /admin, se reduce solo (fotos: máx. 1200 px, calidad 82, sin datos de ubicación; videos pesados: se recomprimen)
 # para que la página siga rápida en el celular. Si ya está optimizada, no hace nada.
 on:
   push:
@@ -30,6 +30,17 @@ jobs:
             if [ "$ancho" -gt 1200 ] || [ "$alto" -gt 1200 ] || [ "$peso" -gt 450000 ]; then
               mogrify -auto-orient -strip -resize '1200x1200>' -quality 82 "$f"
               echo "Optimizada: $f ($peso bytes -> $(stat -c%s "$f"))"
+              cambios=1
+            fi
+          done
+          # Videos: si pesan más de 12 MB o son más grandes que 1280 px, se recomprimen (H.264, listo para celular)
+          for f in assets/eventos/*.mp4 assets/eventos/*.m4v; do
+            peso=$(stat -c%s "$f")
+            dims=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 "$f")
+            ancho=${dims%,*}; alto=${dims#*,}
+            if [ "$peso" -gt 12000000 ] || [ "$ancho" -gt 1280 ] || [ "$alto" -gt 1280 ]; then
+              ffmpeg -y -loglevel error -i "$f" -vf "scale='if(gt(iw,ih),min(1280,iw),-2)':'if(gt(iw,ih),-2,min(1280,ih))'" -c:v libx264 -crf 28 -preset veryfast -pix_fmt yuv420p -c:a aac -b:a 96k -movflags +faststart "$f.tmp.mp4" && mv "$f.tmp.mp4" "$f"
+              echo "Video optimizado: $f ($peso bytes -> $(stat -c%s "$f"))"
               cambios=1
             fi
           done

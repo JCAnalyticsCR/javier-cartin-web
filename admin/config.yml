@@ -42,4 +42,5 @@ collections:
               - { label: Lugar, name: lugar, widget: string, required: false, hint: "Ejemplo: Teatro Nacional, San José" }
               - { label: Texto o descripción, name: descripcion, widget: text, required: false, hint: "Hora, precio, quién invita... lo que quiera contar." }
               - { label: Afiche o foto, name: imagen, widget: image, required: false, hint: "Toque para subir una foto desde su teléfono o computadora.", media_library: { config: { multiple: false } } }
+              - { label: Video (opcional), name: video, widget: file, required: false, hint: "Si sube un video, se reproduce dentro del evento. Mejor corto (hasta 1 o 2 minutos). Puede usar uno grabado con el celular o el que le llegó por WhatsApp.", media_library: { config: { multiple: false } } }
               - { label: Enlace para más información o entradas, name: enlace, widget: string, required: false, hint: "Opcional. Debe empezar con https://" }

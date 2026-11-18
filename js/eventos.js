@@ -19,6 +19,12 @@
     try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Costa_Rica', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); }
     catch (e) { return new Date().toISOString().slice(0, 10); }
   }
+  // Video subido desde el panel (assets/) o enlace https a un archivo de video; solo mp4/webm/m4v
+  function videoSeguro(u) {
+    u = String(u || '').trim();
+    var ok = /^https:\/\/[^\s"'<>]+\.(mp4|webm|m4v)(\?[^\s"'<>]*)?$/i.test(u) || (/^\/?assets\/[\w\-./ %]+\.(mp4|webm|m4v)$/i.test(u) && u.indexOf('..') < 0);
+    return ok ? u.replace(/^\//, '') : '';
+  }
   function partes(f) {
     var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(f || ''));
     if (!m) return null;
@@ -33,13 +39,19 @@
   }
 
   function tarjeta(e, p) {
-    var img = imgSegura(e.imagen), url = urlSegura(e.enlace);
-    var desc = esc(e.descripcion || '').replace(/\n/g, '<br>');
+    var img = imgSegura(e.imagen), vid = videoSeguro(e.video), url = urlSegura(e.enlace);
+    var desc = esc(e.descripcion || '').replace(/\r?\n/g, '<br>');
     var fecha = '<div class="evento__fecha" aria-hidden="true"><span class="evento__dia">' + esc(p.dia) + '</span><span class="evento__mes">' + esc(p.mes) + '</span></div>';
-    var media = img
-      ? '<div class="evento__img"><img src="' + esc(img) + '" alt="' + esc('Afiche: ' + (e.titulo || 'evento')) + '" loading="lazy" decoding="async">' + fecha + '</div>'
-      : '<div class="evento__img evento__img--sin">' + fecha + '</div>';
-    return '<article class="evento' + (img ? '' : ' evento--sin-img') + '">' + media +
+    var media;
+    if (vid) {                                       // video: la foto (si hay) es la portada antes de reproducir
+      media = '<div class="evento__img evento__img--video"><video controls playsinline preload="metadata"' + (img ? ' poster="' + esc(img) + '"' : '') +
+        ' aria-label="' + esc('Video: ' + (e.titulo || 'evento')) + '"><source src="' + esc(vid) + (img ? '' : '#t=0.1') + '"></video>' + fecha + '</div>';
+    } else if (img) {
+      media = '<div class="evento__img"><img src="' + esc(img) + '" alt="' + esc('Afiche: ' + (e.titulo || 'evento')) + '" loading="lazy" decoding="async">' + fecha + '</div>';
+    } else {
+      media = '<div class="evento__img evento__img--sin">' + fecha + '</div>';
+    }
+    return '<article class="evento' + (img || vid ? '' : ' evento--sin-img') + '">' + media +
       '<div class="evento__cuerpo">' +
         '<time class="evento__cuando" datetime="' + p.iso + '">' + esc(p.semana) + ' ' + esc(p.dia) + ' de ' + esc(p.mes) + ', ' + esc(p.anio) + '</time>' +
         '<h3 class="evento__titulo">' + esc(e.titulo || 'Evento') + '</h3>' +

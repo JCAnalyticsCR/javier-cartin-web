@@ -30,3 +30,8 @@
 }
 @media (max-width:767px){ .eventos{padding-top:44px;padding-bottom:48px} }
 @media (prefers-reduced-motion:reduce){ .evento,.evento__btn{transition:none} .evento:hover{transform:none} }
+
+/* Video dentro de la tarjeta: vertical u horizontal sin recortar, con controles; la fecha no tapa los botones */
+.evento__img--video{background:#000}
+.evento__img video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.evento__img--video .evento__fecha{pointer-events:none}
