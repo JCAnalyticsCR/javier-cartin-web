@@ -5,7 +5,7 @@ backend:
   repo: JCAnalyticsCR/javier-cartin-web
   branch: main
   # Servicio gratuito de inicio de sesión (Cloudflare Worker). Se completa al desplegarlo:
-  base_url: https://REEMPLAZAR-auth.workers.dev
+  base_url: https://javiercartin-cms-auth.gerencia-6ac.workers.dev
   commit_messages:
     create: "eventos: agregar {{slug}}"
     update: "eventos: actualizar {{slug}}"
